@@ -1,0 +1,33 @@
+body {
+    background-image: url("https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?cs=srgb&dl=background-blur-clean-531880.jpg&fm=jpg");
+    background-position: center;
+    
+}
+/* CSS for sign up form within container box */
+.signUp {
+    width: 50%;
+    margin-left: 33%;
+
+}
+/* CSS for the title above the usernam and passkey box */
+.userNameTitle {
+    text-align: center;
+    font-family: 'Francois One', sans-serif;
+    margin: 0 20%;
+    margin-bottom: 5px;
+}
+/* Container holding the userNameTitle and userName/Passkey box */
+.formBox {
+    margin-top: 300px;
+}
+/* NavBar title */
+.navbar-brand {
+    color: #28a745 !important;
+    font-weight: 150;
+    font-family: 'Francois One', sans-serif;
+}
+/* Sign up button on login page */
+.btn-secondary {
+    margin-top: 10px;
+    width: 182px;
+}
