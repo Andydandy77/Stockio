@@ -21,12 +21,14 @@ $(document).ready(function() {
             var queryUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + ticker + "&interval=5min&outputsize=full&apikey=" + alphaVantageKey;
             var price = 0;
             console.log(i);
+            var j = 0
             $.ajax({
                 url: queryUrl,
                 method: 'GET'
 
             }).then(function (response){
                 console.log(response);
+                
 
                 var prices = response["Time Series (5min)"];
 
@@ -47,12 +49,14 @@ $(document).ready(function() {
                 price = prices[mostRecentTime]["4. close"];
 
                 //console.log(user.portfolio);
-                for (var j = 0; j < user.stocks.length; j++) {
-                    user.portfolio = user.portfolio + price * user.shares[j];
-                    console.log(user.portfolio)
-                    $("#"+ user.stocks[j] + "Price").text("$"+price);
+                
+                user.portfolio = user.portfolio + price * user.shares[j];
+                console.log(user.portfolio)
+                $("#"+ user.stocks[j] + "Price").text("$"+price);
+
+                j++;
                     
-                }
+            
                
 
                 
