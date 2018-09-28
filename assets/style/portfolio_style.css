@@ -1,0 +1,77 @@
+.navbar-brand {
+    color: #28a745 !important;
+    font-weight: 150;
+    font-family: 'Francois One', sans-serif;
+}
+
+#portfolioGraph {
+    border-width: 1px;
+    border-style: solid;
+    border-color: #d3d3d3;
+    height: 400px;
+}
+
+.portfolio {
+    margin-top: 75px;
+
+}
+
+/* #holdings {
+    border-width: 1px;
+    border-style: solid;
+    border-color: #d3d3d3;
+    height: 400px;
+    /* margin-left: 80px; 
+} */
+
+
+#holdingSection {
+    margin-left: 70px;
+}
+
+.title {
+    text-align: center;
+}
+
+.holding {
+    border: 1px solid #d3d3d3;
+    height: 60px;
+    padding: 10px;
+}
+
+.stockName{
+
+    width: 100px;
+    height: 40px;
+    background-color: #5de27c;
+    color: white;
+    text-align: center;
+    padding-top: 8px; 
+    border: 1px solid #5de27c;
+    border-radius: 50px 50px;
+    float:left;
+}
+
+.price {
+    width: 100px;
+    height: 40px;
+    background-color: #5de27c;
+    color: white;
+    text-align: center;
+    padding-top: 8px; 
+    border: 1px solid #5de27c;
+    border-radius: 50px 50px;
+    float: left;
+    margin-left: 30px;
+}
+
+.shareNumber {
+    float:left;
+    margin-left: 30px;
+    margin-top: 7px;
+
+}
+
+#news {
+    height: 500px;
+}
