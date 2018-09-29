@@ -1,11 +1,19 @@
 $(document).ready(function() {
 
+
+
     var alphaVantageKey = "QEX4QCA7O8Q6PC86";
     var user = {
 
         buyingPower: 10000,
-        stocks: ["AAPL", "AMZN", "GOOGL"],
-        shares: [4, 2, 8],
+        stocks : {
+
+            "AAPL" : [0, 4],
+            "AMZN" : [0, 2],
+            "GOOGL": [0, 8],
+
+        },
+
         portfolio: 10000,
 
     }
@@ -14,23 +22,30 @@ $(document).ready(function() {
 
 
     function pullStockData() {
+        user.portfolio = 0;
 
-        for(var i = 0; i < user.stocks.length; i++) {
-            var ticker = user.stocks[i];
+        for (var stock in user.stocks) {
+            
             //console.log(ticker);
-            var queryUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + ticker + "&interval=5min&outputsize=full&apikey=" + alphaVantageKey;
+            var queryUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + stock + "&interval=5min&outputsize=full&apikey=" + alphaVantageKey;
             var price = 0;
-            console.log(i);
+            //console.log(stock);
             var j = 0
             $.ajax({
                 url: queryUrl,
                 method: 'GET'
 
             }).then(function (response){
-                console.log(response);
+                //console.log(response);
                 
 
                 var prices = response["Time Series (5min)"];
+                //console.log(prices);
+                var meta = response["Meta Data"];
+                var stock = meta["2. Symbol"];
+                //["Symbol"];
+                console.log(meta)
+                console.log(stock);
 
                 var min = 100000000000000;
                 var mostRecentTime = "";
@@ -43,24 +58,35 @@ $(document).ready(function() {
                     }
                 
                 }
-                console.log(mostRecentTime);
-
-                console.log(prices[mostRecentTime]);
+               // console.log(mostRecentTime);
+              
+                //console.log(prices[mostRecentTime]);
+                console.log(price)
                 price = prices[mostRecentTime]["4. close"];
 
                 //console.log(user.portfolio);
                 
-                user.portfolio = user.portfolio + price * user.shares[j];
-                console.log(user.portfolio)
-                $("#"+ user.stocks[j] + "Price").text("$"+price);
+                user.portfolio = user.portfolio + price * user.stocks[stock][1];
+                user.stocks[stock][0] = price
 
-                j++;
+                console.log(user.portfolio);
+                //console.log(user.portfolio);
+                
+                //console.log(user.stockPrices);
+
+                $("#"+ stock + "Price").text("$"+ user.stocks[stock][0]);
+                
+
                     
             
                
 
                 
             });
+
+            
+
+            
 
             
             
