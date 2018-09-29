@@ -15,8 +15,8 @@
   var database = firebase.database();
 
   //Initial amount of money
-  var Money = 10000;
-  $(".moneyGoesHere").html("<div> My Wallet : "+ Money +"</div>");
+  var money = 10000;
+  $(".moneyGoesHere").html("<div> My Wallet : "+ money +"</div>");
   
   //empty variable to put currently searched stock name
   var displayName ="";
@@ -84,6 +84,45 @@ $(".searchButton").on("click", function(event) {
           console.log(price);
   
       //somehow making the graph display?
+      //buy
+     
+
+      //1. needs to click buy + needs to indicate how many shares + needs to click executeTrade
+      //2. needs to add on to Dave's databse to go on portfolio.
+      //I DONT NEED TO put everything i searched into database. I just need to put the name when putting'
+
+      // $(".moneyGoesHere").html("<div> My Wallet : "+ money +"</div>");
+
+      //   $(".shareButton").on("click", function(event) {
+      //     event.preventDefault();
+        
+      //      // Grabs user input
+      //      var shareAmount = $(".shareBox").val();
+      //      // Clears all of the text-boxes
+      //      $(".form-control").val("");
+      //      //putting data into database
+      //      database.ref().push({
+      //        searchname: newSearch
+      //      });
+           
+      //       database.ref().on("child_added", function(childSnapshot) {
+      //         // Store everything into a variable.
+      //       displayName = childSnapshot.val().searchname;
+        
+      //       // Append the new row to the table
+      //       $("#newSearchName").html(displayName);
+      //       });
+        
+
+    
+    //sell
+    //1. needs to click sell + needs to indicate how many shares + needs to click executeTrade
+    //2. needs to be removed from Portfolio if the user doesn't own it anymore
+
+    //share
+
+
+
         });
 
 
@@ -94,26 +133,6 @@ $(".searchButton").on("click", function(event) {
      
 
 
-//sell + buy + trade
-$(".discoverButton").on("click", function() {
-
-  if ($(this).id === "buyStock"){
-
-  
-  // In this case, the "this" keyword refers to the button that was clicked
-  //money decrease. grab "price" and deduct from my wallet.
-  //whatever i bought gets added on to the portfolio.
-  } else if ($(this).id === "sellStock"){
-    //calculate the differnece, whether profit or loss
-    //add or subtract that much from wallet
-
-  } else if ($(this).id === "tradeStock"){
-    //swap whatever i'm buying with whatever i have
-  }
-  //
-
-
-});
 
 
 

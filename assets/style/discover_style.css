@@ -88,6 +88,10 @@ body{
     background: rgb(59, 59, 107);
 } */
 
+.shareBox{
+    align-content: center;
+    align-items: center;
+}
 .wet-asphalt-flat-button {
     position:relative;
     clear: both;
