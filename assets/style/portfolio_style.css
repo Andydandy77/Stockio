@@ -75,3 +75,7 @@
 #news {
     height: 500px;
 }
+
+.linkText {
+    font-weight: bold;
+}
