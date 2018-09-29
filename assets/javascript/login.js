@@ -1,4 +1,4 @@
 console.log("linked");
 
-var userName = $("");
-var Password = $("");
+var userName = $(".loginButton").val();
+var Password = $(".signUpButton").val();
