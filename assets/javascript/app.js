@@ -1,6 +1,23 @@
 $(document).ready(function() {
 
 
+    $(document).on("click", ".price", function(){
+        console.log(showSharesxPrices);
+        showSharesxPrices = !showSharesxPrices;
+        var multiplier = 1;
+        for (var stockName in user.stocks) {
+            if(showSharesxPrices) {
+                multiplier = user.stocks[stockName][1];
+                
+
+            } 
+            var stockPrice = user.stocks[stockName][0] * multiplier;
+            $("#" + stockName).text("$"+ stockPrice);
+
+        }
+    });
+
+    var showSharesxPrices = false;
 
     var alphaVantageKey = "QEX4QCA7O8Q6PC86";
     var user = {
@@ -65,8 +82,9 @@ $(document).ready(function() {
                 price = prices[mostRecentTime]["4. close"];
 
                 //console.log(user.portfolio);
+                var sharesxPrices =  price * user.stocks[stock][1];
                 
-                user.portfolio = user.portfolio + price * user.stocks[stock][1];
+                user.portfolio = user.portfolio + sharesxPrices;
                 user.stocks[stock][0] = price
 
                 console.log(user.portfolio);
@@ -74,7 +92,12 @@ $(document).ready(function() {
                 
                 //console.log(user.stockPrices);
 
-                $("#"+ stock + "Price").text("$"+ user.stocks[stock][0]);
+                if(!showSharesxPrices) {
+
+                    $("#"+ stock).text("$"+ user.stocks[stock][0]);
+                } else {
+                    $("#"+ stock ).text("$"+ sharesxPrices);
+                }
                 
 
                     
