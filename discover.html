@@ -19,11 +19,21 @@
     
     <nav class="navbar navbar-light bg-dark justify-content-between">
         <a class="navbar-brand">Stockio</a>
+
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#"> Portfolio <span class="sr-only">(current)</span></a>
+            </li>
+           
+        </ul>
+        
         <form class="form-inline">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
           <button class="searchButton btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </nav>
+
+    
 
     <div class = "container">
         <div class = "portfolio">
@@ -46,6 +56,13 @@
                         <div class="card-header"> Action
                         </div>
 
+                    <div class="form-group row">
+                            <label for="example-text-input" class="col-lg-3 col-form-label">Share</label>
+                        <div class="col-lg-6">
+                            <input class="form-control shareBox" type="text" placeholder="1-10" id="example-text-input">
+                        </div>
+                    </div>
+                
             
                     <div class="column">
                         <p><input type="submit" value="Buy" id="buyStock" class="discoverButton wet-asphalt-flat-button-small left">
@@ -58,14 +75,7 @@
                         </p>
                     </div>   
 
-                    <div class="form-group row">
-                            <label for="example-text-input" class="col-lg-3 col-form-label">Share</label>
-                        <div class="col-lg-6">
-                            <input class="form-control shareBox" type="text" value="Artisanal kale" id="example-text-input">
-                            <button class="shareButton btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </div>
-                    </div>
-            
+                   
 
             
                     <div class="one-third column">

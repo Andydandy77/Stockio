@@ -1,5 +1,4 @@
 //MINE
-  // Initialize Firebase
   
   var config = {
     apiKey: "AIzaSyBNei_vN8GvML5kPGoD6tfVqAs4GSWaCEw",
@@ -10,9 +9,9 @@
     messagingSenderId: "160785092414"
   };
 
-  firebase.initializeApp(config);
-
-  var database = firebase.database();
+  // Initialize FIREBASE 나중에 실행 +++++++++++++++++++++++++++++++++++++++++++++++
+  // firebase.initializeApp(config);
+  // var database = firebase.database();
 
   //Initial amount of money
   var money = 10000;
@@ -21,27 +20,19 @@
   //empty variable to put currently searched stock name
   var displayName ="";
 
+  var newSearch= "";
   //Searching for new stock. 
 $(".searchButton").on("click", function(event) {
   event.preventDefault();
 
    // Grabs user input
-   var newSearch = $(".form-control").val();
+   displayName = $(".form-control").val();
    // Clears all of the text-boxes
    $(".form-control").val("");
-   //putting data into database
-   database.ref().push({
-     searchname: newSearch
-   });
-   
-    database.ref().on("child_added", function(childSnapshot) {
-      // Store everything into a variable.
-    displayName = childSnapshot.val().searchname;
 
-    // Append the new row to the table
-    $("#newSearchName").html(displayName);
-    });
-
+    // Display newly serached result on to screen.
+  $("#newSearchName").html(displayName.toUpperCase());
+  
   var APIkeyChi = "QFHI6KS6J07ERWBA"
   var queryURL = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="+displayName+"&interval=5min&apikey="+APIkeyChi;
 
@@ -91,27 +82,42 @@ $(".searchButton").on("click", function(event) {
       //2. needs to add on to Dave's databse to go on portfolio.
       //I DONT NEED TO put everything i searched into database. I just need to put the name when putting'
 
-      // $(".moneyGoesHere").html("<div> My Wallet : "+ money +"</div>");
+      $(".moneyGoesHere").html("<div> My Wallet : "+ money +"</div>");
 
-      //   $(".shareButton").on("click", function(event) {
-      //     event.preventDefault();
+      var buyPressed = false;
+      // Grabs share amount from user
+      var shareAmount = 0;
+      var boughtStock = 0;
+
+      //calculating the total amount to be deducted from my wallet.
+      $("#buyStock").on("click", function(event){
+        buyPressed = true;
+        shareAmount = $(".shareBox").val();
+        // Clears all of the text-boxes
+        $(".shareBox").val("");
+        boughtStock = shareAmount * price
+      });
+
+      //deducting from my wallet.
+      $("#tradeStock").on("click", function(event) {
+        console.log(buyPressed);
+        if(buyPressed){
+          money -= boughtStock;
+          console.log(money);
+          $(".moneyGoesHere").html("<div> My Wallet : "+ money +"</div>");
+        };
         
-      //      // Grabs user input
-      //      var shareAmount = $(".shareBox").val();
-      //      // Clears all of the text-boxes
-      //      $(".form-control").val("");
-      //      //putting data into database
-      //      database.ref().push({
-      //        searchname: newSearch
-      //      });
-           
-      //       database.ref().on("child_added", function(childSnapshot) {
-      //         // Store everything into a variable.
-      //       displayName = childSnapshot.val().searchname;
+          
+          
+
+           //putting data into database. new databse, not for searching, storing money amount, share, 
+          //  database.ref().push({
+          //    stockName: newSearch,
+          //    stockShare: shareAmount
+          //  });
+          
         
-      //       // Append the new row to the table
-      //       $("#newSearchName").html(displayName);
-      //       });
+          });
         
 
     
@@ -132,71 +138,3 @@ $(".searchButton").on("click", function(event) {
   
      
 
-
-
-
-
-
-
-// //DAVES
-// $(document).ready(function() {
-
-//     var alphaVantageKey = "QEX4QCA7O8Q6PC86";
-//     var user = {
-
-//         buyingPower: 10000,
-//         stocks: ["AAPL"]
-
-//     }
-
-//     var intervalId = setInterval(pullStockData, 5000);
-
-
-//     function pullStockData() {
-
-//         for(var i = 0; i < user.stocks.length; i++) {
-//             var ticker = user.stocks[i];
-//             console.log(ticker);
-//             var queryUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + ticker + "&interval=5min&outputsize=full&apikey=" + alphaVantageKey;
-
-//             $.ajax({
-//                 url: queryUrl,
-//                 method: 'GET'
-
-//             }).then(function (response){
-
-//                 //console.log(response);
-//                 //console.log(response[0]);
-//                 //console.log(response);
-//                 var prices = response["Time Series (5min)"];
-//                 //console.log(prices);
-
-//                 var min = 100000000000000;
-//                 var mostRecentTime = "";
-//                 for (var timeStamp in prices) {
-//                     var diff =moment().diff(moment(timeStamp, "YYYY-MM-DD HH:mm:ss") , "minutes");
-
-//                     if (diff < min) {
-//                         min = diff;
-//                         mostRecentTime = timeStamp;
-//                     }
-                
-//                 }
-//                 console.log(mostRecentTime);
-
-//                 console.log(prices[mostRecentTime]);
-//                 var price = prices[mostRecentTime]["4. close"];
-//                 console.log(price);
-
-                
-
-//             });
-
-//         }
-
-
-//     }
-
-
-
-// });

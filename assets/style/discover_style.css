@@ -88,9 +88,9 @@ body{
     background: rgb(59, 59, 107);
 } */
 
-.shareBox{
-    align-content: center;
-    align-items: center;
+/* nav bar "portfolio" color */
+.nav-link{
+    color: orange;
 }
 .wet-asphalt-flat-button {
     position:relative;
