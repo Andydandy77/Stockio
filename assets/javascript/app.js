@@ -68,7 +68,7 @@ $(document).ready(function() {
             }).then(function (response){
                 //console.log(response);
                 
-                dayIndex = 77;
+                dayIndex = 0;
                 var prices = response["Time Series (5min)"];
                 //console.log(prices);
                 var meta = response["Meta Data"];
@@ -116,30 +116,36 @@ $(document).ready(function() {
                 
                 var mostRecentTimeMoment = moment(mostRecentTime, "YYYY-MM-DD HH:mm:ss");
 
-                var fiveMinsBefore = mostRecentTimeMoment;
-                var beforeMarket = moment(mostRecentTime, "YYYY-MM-DD HH:mm:ss" ).set("hour", 9);
-                beforeMarket = beforeMarket.set("minute", 25);
+                var fiveMinsAfter = moment(mostRecentTime, "YYYY-MM-DD HH:mm:ss" ).set("hour", 9);
+                fiveMinsAfter = fiveMinsAfter.set("minute" , 30);
+                // var afterMarket = moment(mostRecentTime, "YYYY-MM-DD HH:mm:ss" ).set("hour", 16);
+                // afterMarket = afterMarket.set("minute", 0);
+
+                console.log(fiveMinsAfter.format("HH:mm:ss"));
+                //console.log(afterMarket.format("HH:mm:ss"));
                 //console.log(beforeMarket.format("YYYY-MM-DD HH:mm:ss"));
                 
                 // daily portfolio values
-                 while(fiveMinsBefore.format("YYYY-MM-DD HH:mm:ss") !== beforeMarket.format("YYYY-MM-DD HH:mm:ss")){
+                 while(fiveMinsAfter.format("YYYY-MM-DD HH:mm:ss") !== mostRecentTime){
 
                     //console.log(prices[fiveMinsBefore.format("YYYY-MM-DD HH:mm:ss")]["4. close"]);
                     //console.log(user.portfolioHistoryDay[dayIndex]);
-                    user.portfolioHistoryDay[dayIndex] = user.portfolioHistoryDay[dayIndex] + parseInt(prices[fiveMinsBefore.format("YYYY-MM-DD HH:mm:ss")]["4. close"]);
+                    user.portfolioHistoryDay[dayIndex] = user.portfolioHistoryDay[dayIndex] + parseInt(prices[fiveMinsAfter.format("YYYY-MM-DD HH:mm:ss")]["4. close"]);
                     //console.log("portfolio at index" + dayIndex + " is " + user.portfolioHistoryDay[dayIndex] )
                     //console.log(user.portfolioHistoryDay);
                     
-                    fiveMinsBefore = fiveMinsBefore.subtract('5' ,"minutes");
+                    fiveMinsAfter = fiveMinsAfter.add('5' ,"minutes");
                     console.log("index " + dayIndex + ": " + user.portfolioHistoryDay[dayIndex]);
 
      
-                    dayIndex--;
+                    dayIndex++;
 
                 }
                 //console.log(user.portfolioHistoryDay)
                 temp++;
                 if (temp === user.numStocks) {
+                    user.portfolioHistoryDay.length = dayIndex;
+                    console.log(user.portfolioHistoryDay)
                     resolve("Succes!")
                 }
 
