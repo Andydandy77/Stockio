@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="assets/style/Login-style.css">
     <!-- Google Font link -->
     <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
-    
+    <!-- FireBase -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -48,8 +49,9 @@
             <input type="password" class="form-control passWord" placeholder="PassKey">
           </div>
         </div>
-        <button type="button" class="btn btn-secondary loginButton">Login</button>
-        <button type="button" class="btn btn-secondary signUpButton">Sign Up</button>
+        <button type="button" class="btn btn-secondary loginButton" onclick="login()">Login</button>
+        <button type="button" class="btn btn-secondary signUpButton" onclick="signUp()">Sign Up</button>
+        <button type="button" class="btn btn-secondary signUpButton" onclick="logout()" >Log out</button>
       </form>
     </div>
       <!-- End of form add- Trae -->
