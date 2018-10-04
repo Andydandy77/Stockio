@@ -127,7 +127,6 @@ $(document).ready(function() {
                                     $("#"+ stock ).text("$"+ sharesxPrices);
                                 }
                                 
-                                var mostRecentTimeMoment = moment(mostRecentTime, "YYYY-MM-DD HH:mm:ss");
 
                                 var fiveMinsAfter = moment(mostRecentTime, "YYYY-MM-DD HH:mm:ss" ).set("hour", 9);
                                 fiveMinsAfter = fiveMinsAfter.set("minute" , 30);
