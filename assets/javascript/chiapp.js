@@ -1,4 +1,4 @@
-//API
+//API KEY VERY ESSENTIAL BUT may be a duplicate +++++++++++++++++++++++++++++++++++++++++++++++++++???
   var config = {
     apiKey: "AIzaSyBNei_vN8GvML5kPGoD6tfVqAs4GSWaCEw",
     authDomain: "ishallpass-b8571.firebaseapp.com",
@@ -8,13 +8,15 @@
     messagingSenderId: "160785092414"
   };
 
-// Initialize FIREBASE. 
+// Initialize FIREBASE. LINK TO TRAE's LATER------------------------------------------------------------+???
   firebase.initializeApp(config);
   var database = firebase.database();
 
+
+
   //Initial amount of money. CHANGE ACCORDINGLY +++++++++++++++++++++++++++++++++++++++
 
-  //var money = 10000 only when user creates the id/pass for the first time.++++++++++++++++++++++++
+  //var money = 10000 only when user creates the id/pass for the first time.----------------------------------+ guess this doens't really matter when we set up the login/database?
   var money = 10000;
   $(".moneyGoesHere").html("<div class='minorFont'> My Wallet : "+ money +"</div>");
   
@@ -22,6 +24,10 @@
   var displayName ="";
 
 
+
+
+
+  //same as DAVE's Code
   //What gets put in from response.timeseries. shows the value of stock according to change in time. 
   var prices= "";
   //setting up standard of a comaprable value.
@@ -31,7 +37,12 @@
   //emtpy array to push in ...
   var timeArray = [];
 
-  //pulling data from firebase and put into the variables so we can display.
+
+
+
+
+
+  //pulling data from firebase and put into the variables so we can display.TRAE's DATABASE COMBINE LATER -------------------------------------
 
   var hasName ="";
   var hasShare = 0;
@@ -41,6 +52,12 @@
   //upon search, grabs user input and displays on HTML.
 $(".searchButton").on("click", function(event) {
   event.preventDefault();
+
+  // //deletes newly appended stock name. this code won't be necessary once we figure out login with data. but still needs to update. 
+  // $("#holding").html("");
+
+
+
 
   // Grabs user input, put it in var displayname.
    displayName = $(".form-control").val();
@@ -54,11 +71,13 @@ $(".searchButton").on("click", function(event) {
   //upon search, it displays whether i have that stock, if i do, how many, etc.
   database.ref().on("child_added", function(childSnapshot) {
   
+    hasShare = 0;
     hasName = (childSnapshot.val().stockName);
+    
+ //QQQQ   //pulling from exisiting source, not searched value. currently, every time i search, the value goes into "stockShare", thus on page, display every single number i searched.++++++
+    //i guess once we figure out how to update our saved share amount, we might be able to pull the latest share value. 
     hasShare = (childSnapshot.val().stockShare);
     hasMoney = (childSnapshot.val().myMoney);
-    console.log(displayName);
-    console.log(hasName);
 
     if (displayName === hasName && hasShare === 1 ){
       $(".initialStatus").html("You currently have <br>" + hasShare + " share of " + hasName + ". <br> You have $"+ hasMoney +" <br> in your My Wallet." )
@@ -67,7 +86,10 @@ $(".searchButton").on("click", function(event) {
     } else {
       $(".initialStatus").html("You currently have <br> 0 share of " + displayName + ". <br> You have $"+ hasMoney +"<br> in your My Wallet." )
     }
-    
+  
+    hasShare = 0;
+//QQQ    //should this be = 0?
+
   });
 
 
@@ -75,7 +97,7 @@ $(".searchButton").on("click", function(event) {
 
 
 
-  //API KEY
+  //API KEY, DISPLAY GRAPH, MAYBE DUPLICATE, til 242?????++++++++++++++++++++++++++++++++=
   var APIkeyChi = "QFHI6KS6J07ERWBA"
   var queryURL = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="+displayName+"&interval=5min&apikey="+APIkeyChi;
   var portfolioHistoryDay = [];
@@ -93,18 +115,13 @@ $(".searchButton").on("click", function(event) {
       //API call, putting time value into variable prices. 
       prices = response["Time Series (5min)"];
 
-      //지워지워
-      console.log(prices);
-
       //pushing pries into timeArray array 
       timeArray.push(prices);
       for (i = 0;i<prices.length; i++){
         timeArray.push(prices[i])
       };
 
-      //지워지워
-      console.log(timeArray);
-
+    
 
       //Pulling and Comparing most recent time and stock price. DUPLICATE ++++++++++++++++++++++++++++++++++
           for (var timeStamp in prices) {
@@ -117,17 +134,10 @@ $(".searchButton").on("click", function(event) {
           
           };
 
-          //지워지워
-          // console.log(timeStamp);
-          // console.log(mostRecentTime);
-          // console.log(min);
-          // console.log(diff);
-          
           //Stock Price of the current time.
           price = prices[mostRecentTime]["4. close"];
-          console.log(price);
-  
-      //GRAPHHH??????
+       
+    
 
     for(var i = 0; i < 77; i++) {
       portfolioHistoryDay.push(0);
@@ -235,10 +245,26 @@ $(".searchButton").on("click", function(event) {
  }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       //BUY     
 
       //2. needs to add on to Dave's databse to go on portfolio.
-      //I DONT NEED TO put everything i searched into database. I just need to put the name when putting'
 
       $(".moneyGoesHere").html("<div> My Wallet : "+ money +"</div>");
 
@@ -268,7 +294,10 @@ $(".searchButton").on("click", function(event) {
         if(this.id ==="buyStock" && money > totalStock ){
           proceed = true;
           buySell = "buying";
+          //minus totalstock price since we are paying
           totalStock = -totalStock;
+          //adding shareamount to our totalamount since we are buying more shares
+          totalAmount += shareAmount;
         } else if (this.id ==="buyStock" && money < totalStock ){
           proceed = false;
           alert("Not Enough Money");
@@ -276,6 +305,8 @@ $(".searchButton").on("click", function(event) {
         } else if (this.id ==="sellStock" && totalAmount > shareAmount ){
           proceed = true;
           buySell = "selling";
+          //subtracting shareamount from the totalamount since we are selling.
+          totalAmount -= shareAmount;
         } else {
           proceed = false;
           alert("Don't have enough Share");
@@ -283,9 +314,7 @@ $(".searchButton").on("click", function(event) {
        
         //calculating change in money. 
         currentMoney = money + totalStock;
-
-        //putting share amount into total amount to put into firebase
-        totalAmount += shareAmount;
+       
   
       
       //Displaying what the user is doing before clicking trade button.
@@ -301,6 +330,8 @@ $(".searchButton").on("click", function(event) {
       });
 
 
+
+      //temporary var to test whether code works. CAN BE DELETED LATER- -------------------------------------------
       var user = {
 
         buyingPower: 10000,
@@ -314,13 +345,16 @@ $(".searchButton").on("click", function(event) {
 
         portfolio: 10000,
 
-    }
+    };
+
+
+    
       
       //deducting from my wallet.
       $("#tradeStock").on("click", function(event) {
         if(buttonPressed && proceed){
         $(".moneyGoesHere").html("<div> My Wallet : "+ currentMoney +"</div>");
-        // user.stocks.push(displayName, price, shareAmount);
+        // user.stocks.push(displayName, price, shareAmount); THIS CAN BE DELETED ONCE LINKED TO TRAE;s  ------------------------------------------------------
         database.ref().push({
           stockName: displayName,
           stockShare: totalAmount,
@@ -330,45 +364,66 @@ $(".searchButton").on("click", function(event) {
         shareAmount = 0;
         money = currentMoney;
        
+
+
+
+
+
+
+        
+//QQQQ  //Removing stock name from portfolio page IF totalamount reaches 0
+        if("totalAmount in our database === 0"){
+            //how do i target that specific #holding div with stockname (displayName)???++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        };
+
+
+
+
         // Clears all of the text-boxes
         $(".shareBox").val("");
         $(".currentStatus").html("");  
 
-        //how do you check for duplicates?
-        //msg saying you have bought/sold how many. and currently you have whatever.
-
       } else {
         alert("Please Fix Share Amount");
-      }
-        //  putting data into database. new databse, not for searching, storing money amount, share, 
-       
-        //appending this to the html. checks if particular ID exists or not. 
-// if(displayName == false) {
-  console.log("doesnt exist");
+      };
 
-  console.log(user.stocks);
 
- //condition that checks if the stockname exists//
-  // if (){
 
-    if(user.stocks[displayName.toUpperCase()] == null) {
+
+
+
+          //separate variable to speficially target exisitng share amount in our database
+            var exisitngShare = user.stocks[displayName.toUpperCase()]
+            console.log(exisitngShare);
+
+          //Putting newly bought stock onto portfolio page. 
+          //if stock name DOESN'T exsit, create a new div and display on portfolio page. +++++ STILL NEEDS to connect this to portfolio page. 
+            if(user.stocks[displayName.toUpperCase()] == null) {
+
+          if (totalAmount === 1){
+          $("#holding").append("<div class = 'holding minorFont'> <div class= 'stockName'> <p>" + 
+          displayName + "</p> </div> <div class = 'shareNumber'> <p>" + totalAmount + " share </p> </div> <div class = 'price' id = '" +
+          displayName + "'> </div> </div> " )}
+          
+          else {  
+          $("#holding").append("<div class = 'holding minorFont'> <div class= 'stockName'> <p>" + 
+          displayName + "</p> </div> <div class = 'shareNumber'> <p>" + totalAmount + " shares </p> </div> <div class = 'price' id = '" +
+          displayName + "'> </div> </div> " )}
+            } else {
+
+
+              //If stock name exists, just update the total share amount on database. displaying on Portfolio is done via Dave's app.js code.
+              exisitngShare[1] = totalAmount;
+              console.log(exisitngShare[1]);
+              
+            };
+
+
+
+
+
   
-  if (totalAmount === 1){
-  $("#holding").append("<div class = 'holding minorFont'> <div class= 'stockName'> <p>" + 
-  displayName + "</p> </div> <div class = 'shareNumber'> <p>" + totalAmount + " share </p> </div> <div class = 'price' id = '" +
-  displayName + "'> </div> </div> " )}
-  
-  else {  
-  $("#holding").append("<div class = 'holding minorFont'> <div class= 'stockName'> <p>" + 
-  displayName + "</p> </div> <div class = 'shareNumber'> <p>" + totalAmount + " shares </p> </div> <div class = 'price' id = '" +
-  displayName + "'> </div> </div> " )}
-    } else {
-      //updating existing stockname's share amount.
-    };
-// };
-  
-  // }
-        
+ 
       
         });
 
@@ -384,11 +439,13 @@ $(".searchButton").on("click", function(event) {
  }); //end
   
      
+//question
+
+//do i need to update the price or does it automatically get updated?
 
 //TODO
-//1. Graph
-//2. News Article
-//3. SEll - Remove from database if nothing left.
-//4. BUY - Put that into portfolio.
+//1. Pulling ONLY THE latest exisiting share amount .
+//2. SEll - Remove from the page if shareamount = 0. 
+
 
 
