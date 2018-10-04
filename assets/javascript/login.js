@@ -50,6 +50,7 @@ function signUp() {
 
 function logout() {
     firebase.auth().signOut()
+    // window.location = 'index.html';
         // Sign-out successful.
         console.log("They signed out Trae");
     
@@ -58,11 +59,18 @@ function logout() {
 };
 
 firebase.auth().onAuthStateChanged(function (user) {
-    console.log("statechanged");
-    // logout();
     if(user) {
+
         console.log("fired again");
-        // window.location = '../../portfolio.html'; //After successful login, user will be redirected to portfolio.html
+        var user = firebase.auth().currentUser;
+
+        console.log(user);
+        // window.location = 'portfolio.html'; //After successful login, user will be redirected to portfolio.html 
+    } else {
+        // No user is signed in.
+        console.log("Not logged in");
+        // window.location = "index.html"
       }
 
 });
+
