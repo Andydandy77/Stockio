@@ -12,7 +12,7 @@ body {
 /* CSS for the title above the usernam and passkey box */
 .userNameTitle {
     text-align: center;
-    font-family: 'Francois One', sans-serif;
+    font-family: 'Abril Fatface', cursive;
     margin: 0 20%;
     margin-bottom: 5px;
 }
@@ -24,10 +24,14 @@ body {
 .navbar-brand {
     color: #28a745 !important;
     font-weight: 150;
-    font-family: 'Francois One', sans-serif;
+    font-family: 'Abril Fatface', cursive;
 }
 /* Sign up button on login page */
 .btn-secondary {
     margin-top: 10px;
     width: 182px;
+}
+
+.userEmail {
+    color: white;
 }
