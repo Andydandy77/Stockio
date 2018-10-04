@@ -180,7 +180,7 @@ $(".searchButton").on("click", function(event) {
         currentMoney = money + totalStock;
 
         //putting share amount into total amount to put into firebase
-        totalAmount = shareAmount;
+        totalAmount += shareAmount;
   
       
       //Displaying what the user is doing before clicking trade button.
@@ -195,6 +195,21 @@ $(".searchButton").on("click", function(event) {
           }
       });
 
+
+      var user = {
+
+        buyingPower: 10000,
+        stocks : {
+
+            "AAPL" : [0, 4],
+            "AMZN" : [0, 2],
+            "GOOGL": [0, 8],
+
+        },
+
+        portfolio: 10000,
+
+    }
       
       //deducting from my wallet.
       $("#tradeStock").on("click", function(event) {
@@ -226,9 +241,13 @@ $(".searchButton").on("click", function(event) {
 // if(displayName == false) {
   console.log("doesnt exist");
 
+  console.log(user.stocks);
+
  //condition that checks if the stockname exists//
   // if (){
 
+    if(user.stocks[displayName.toUpperCase()] == null) {
+  
   if (totalAmount === 1){
   $("#holding").append("<div class = 'holding minorFont'> <div class= 'stockName'> <p>" + 
   displayName + "</p> </div> <div class = 'shareNumber'> <p>" + totalAmount + " share </p> </div> <div class = 'price' id = '" +
@@ -238,6 +257,9 @@ $(".searchButton").on("click", function(event) {
   $("#holding").append("<div class = 'holding minorFont'> <div class= 'stockName'> <p>" + 
   displayName + "</p> </div> <div class = 'shareNumber'> <p>" + totalAmount + " shares </p> </div> <div class = 'price' id = '" +
   displayName + "'> </div> </div> " )}
+    } else {
+      //updating existing stockname's share amount.
+    };
 // };
   
   // }
@@ -246,21 +268,7 @@ $(".searchButton").on("click", function(event) {
         });
 
 
-      var user = {
-
-        buyingPower: 10000,
-        stocks : {
-
-            "AAPL" : [0, 4],
-            "AMZN" : [0, 2],
-            "GOOGL": [0, 8],
-
-        },
-
-        portfolio: 10000,
-
-    }
-
+   
 
         
         });
