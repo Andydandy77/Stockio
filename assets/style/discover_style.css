@@ -21,7 +21,9 @@
     border-style: solid;
     border-color: #d3d3d3;
     height: 400px;
-    width:100%;
+     width:80%;
+     margin-left: 50px;
+    /* margin-left: 250px; */
 }
 
 .portfolio {
@@ -30,6 +32,7 @@
 
 .title {
     text-align: center;
+    margin-left: 50px;
 }
 
 

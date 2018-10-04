@@ -78,6 +78,7 @@ $(".searchButton").on("click", function(event) {
   //API KEY
   var APIkeyChi = "QFHI6KS6J07ERWBA"
   var queryURL = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="+displayName+"&interval=5min&apikey="+APIkeyChi;
+  var portfolioHistoryDay = [];
 
   // Performing our AJAX GET request
   $.ajax({
@@ -117,10 +118,10 @@ $(".searchButton").on("click", function(event) {
           };
 
           //지워지워
-          console.log(timeStamp);
-          console.log(mostRecentTime);
-          console.log(min);
-          console.log(diff);
+          // console.log(timeStamp);
+          // console.log(mostRecentTime);
+          // console.log(min);
+          // console.log(diff);
           
           //Stock Price of the current time.
           price = prices[mostRecentTime]["4. close"];
@@ -128,6 +129,110 @@ $(".searchButton").on("click", function(event) {
   
       //GRAPHHH??????
 
+    for(var i = 0; i < 77; i++) {
+      portfolioHistoryDay.push(0);
+    }
+
+
+    var fiveMinsAfter = moment(mostRecentTime, "YYYY-MM-DD HH:mm:ss" ).set("hour", 9);
+    fiveMinsAfter = fiveMinsAfter.set("minute" , 30);
+
+    var dayIndex = 0;
+    while(fiveMinsAfter.format("YYYY-MM-DD HH:mm:ss") !== mostRecentTime){
+        portfolioHistoryDay[dayIndex] = portfolioHistoryDay[dayIndex] + parseInt(prices[fiveMinsAfter.format("YYYY-MM-DD HH:mm:ss")]["4. close"]) ;
+        fiveMinsAfter = fiveMinsAfter.add('5' ,"minutes");
+        dayIndex++;
+        
+    }
+
+  }).then(function() {
+    afterPromise();
+
+  });
+
+  // These two functions will be deleted when we combine Chi and My javascript files
+  function afterPromise() {
+    console.log("entered afterPromise")
+     //console.log(value);
+   //  console.log(portfolioHistoryDay[1]);
+
+     var arr = [];
+     var time = moment("9:30", "hh:mm");
+     for (var i = 0; i < portfolioHistoryDay.length; i++) {
+        // var converted = d3.time.format("%H-%M");
+        // console.log(converted(time.format("hh:mm")))
+
+        //console.log(portfolioHistoryDay[i]);
+        dataPoint = {
+            date: new Date(),
+            value: portfolioHistoryDay[i]
+        }
+        dataPoint.date.setHours(time.hours())
+        dataPoint.date.setMinutes(time.minutes());
+        console.log(dataPoint);
+         arr.push(dataPoint);
+         
+         time.add('5', "minutes");
+     }
+     console.log(arr);
+
+     drawChart(arr);
+}
+
+
+ function drawChart(data) {
+     $("#portfolioGraph").empty();
+     $("#portfolioGraph").append("<svg></svg");
+     //d3.select("svg").
+
+     console.log("entered drawChart")
+     var svgWidth = 600, svgHeight = 400;
+     var margin = { top: 20, right: 20, bottom: 30, left: 50 };
+     var width = svgWidth - margin.left - margin.right;
+     var height = svgHeight - margin.top - margin.bottom;
+     var svg = d3.select('svg')
+       .attr("width", svgWidth)
+       .attr("height", svgHeight);
+     var g = svg.append("g")
+     .attr("transform", 
+         "translate(" + margin.left + "," + margin.top + ")"
+     );
+     var x = d3.scaleTime().rangeRound([0, width]);
+     var y = d3.scaleLinear().rangeRound([height, 0]);
+
+     var line = d3.line()
+     .x(function(d) { return x(d.date)})
+     .y(function(d) { return y(d.value)})
+     x.domain(d3.extent(data, function(d) { return d.date }));
+     y.domain(d3.extent(data, function(d) { return d.value }));
+
+     g.append("g")
+     .attr("transform", "translate(0," + height + ")")
+     .call(d3.axisBottom(x))
+     .select(".domain")
+     .remove();
+
+     g.append("g")
+     .call(d3.axisLeft(y))
+     .append("text")
+     .attr("fill", "#000")
+     .attr("transform", "rotate(-90)")
+     .attr("y", 6)
+     .attr("dy", "0.71em")
+     .attr("text-anchor", "end")
+    //  .text("Price ($)");
+
+     g.append("path")
+     .datum(data)
+     .attr("fill", "none")
+     .attr("stroke", "#5de27c")
+     .attr("stroke-linejoin", "round")
+     .attr("stroke-linecap", "round")
+     .attr("stroke-width", 2)
+     .attr("d", line);
+
+
+ }
 
 
       //BUY     
@@ -263,7 +368,7 @@ $(".searchButton").on("click", function(event) {
 
 
         
-        });
+        
 
 
         //also need to pull news article
