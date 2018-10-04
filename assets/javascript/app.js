@@ -227,6 +227,7 @@ $(document).ready(function() {
  
          drawChart(arr);
     }
+
  
      function drawChart(data) {
          $("#portfolioGraph").empty();
@@ -282,4 +283,29 @@ $(document).ready(function() {
  
      }
 
+
+
+
+    var displayName = "haha";
+    var totalAmount = 2;
+    
+    if($("#" + name).length == 0) {
+        if (totalAmount === 1){
+        $("#holding").append("<div class = 'holding'> <div class= 'stockName'> <p>" + 
+        displayName + "</p> </div> <div class = 'shareNumber'> <p>" + totalAmount + " share </p> </div> <div class = 'price' id = '" +
+        displayName + "'> </div> </div> " )}
+        
+        else {  
+        $("#holding").append("<div class = 'holding'> <div class= 'stockName'> <p>" + 
+        displayName + "</p> </div> <div class = 'shareNumber'> <p>" + totalAmount + " shares </p> </div> <div class = 'price' id = '" +
+        displayName + "'> </div> </div> " )}
+        
+        
+        };
+        
+    
+
+
+
 });
+
