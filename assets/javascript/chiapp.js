@@ -56,9 +56,6 @@ $(".searchButton").on("click", function(event) {
   // //deletes newly appended stock name. this code won't be necessary once we figure out login with data. but still needs to update. 
   // $("#holding").html("");
 
-
-
-
   // Grabs user input, put it in var displayname.
    displayName = $(".form-control").val();
   // Clears all of the text-boxes
