@@ -13,7 +13,6 @@ $(document).ready(function () {
     };
     firebase.initializeApp(config);
     var database = firebase.database();
-    var dav = "dave";
     
 
 
@@ -66,19 +65,32 @@ function signUp() {
 };
 
 
-function logout() {
-    firebase.auth().signOut()
-    // window.location = 'index.html';
-        // Sign-out successful.
-        $(".userEmail").empty();
-        console.log("They signed out Trae");
+// function logout() {
+//     firebase.auth().signOut()
+//     // window.location = 'index.html';
+//         // Sign-out successful.
+//         $(".userEmail").empty();
+//         console.log("They signed out Trae");
     
     
 
-};
+// };
+
 
 firebase.auth().onAuthStateChanged(function (user) {
+
     if(user) {
+        window.location = 'portfolio.html'; 
+       } else {
+        // No user is signed in.
+        console.log("Not logged in");
+       
+         }
+    
+    
+
+    if(user) {
+    
         
     var user = firebase.auth().currentUser;
 
@@ -94,7 +106,7 @@ firebase.auth().onAuthStateChanged(function (user) {
     console.log(currentUser);
 
     currentUser.set({
-        name : "Dave sucks dick"
+        name : "Workingggggg"
     });
     
 
@@ -104,13 +116,16 @@ firebase.auth().onAuthStateChanged(function (user) {
          
     } else {
         // No user is signed in.
+        // window.location.replace("index.html");
         console.log("Not logged in");
         
       }
 
-    
-
 });
+ 
+
+
+
 
 
 

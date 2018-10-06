@@ -285,26 +285,28 @@ $(document).ready(function() {
 
 
 
-    var displayName = "haha";
-    var totalAmount = 2;
-    
-    if($("#" + name).length == 0) {
-        if (totalAmount === 1){
-        $("#holding").append("<div class = 'holding'> <div class= 'stockName'> <p>" + 
-        displayName + "</p> </div> <div class = 'shareNumber'> <p>" + totalAmount + " share </p> </div> <div class = 'price' id = '" +
-        displayName + "'> </div> </div> " )}
-        
-        else {  
-        $("#holding").append("<div class = 'holding'> <div class= 'stockName'> <p>" + 
-        displayName + "</p> </div> <div class = 'shareNumber'> <p>" + totalAmount + " shares </p> </div> <div class = 'price' id = '" +
-        displayName + "'> </div> </div> " )}
-        
-        
-        };
-        
-    
-
-
-
 });
+
+
+var config = {
+    apiKey: "AIzaSyC0tz_bNSxnWAANS4j6XKDzHIDz9WFGI70",
+    authDomain: "fir-practice-7e0ed.firebaseapp.com",
+    databaseURL: "https://fir-practice-7e0ed.firebaseio.com",
+    projectId: "fir-practice-7e0ed",
+    storageBucket: "fir-practice-7e0ed.appspot.com",
+    messagingSenderId: "10233592685"
+};
+firebase.initializeApp(config);
+var database = firebase.database();
+
+function logout() {
+    firebase.auth().signOut()
+        // Sign-out successful.
+        window.location = 'index.html';
+        $(".userEmail").empty();
+        console.log("They signed out");
+    
+    
+
+};
 
