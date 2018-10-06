@@ -133,15 +133,15 @@ $(document).ready(function() {
                 newUser.set({
                     name : email,
                     wallet : 10000,
-                    numStocks : 0,
-                    // stocks :{
-                    //     "AAPL" : [0, 20],
-                    //     "GOOGL" : [0, 20],
-                    //     "AMZN" : [0, 3]
+                    numStocks : 3,
+                    stocks :{
+                        "AAPL" : [0, 20],
+                        "GOOGL" : [0, 20],
+                        "AMZN" : [0, 3]
 
-                    // },
+                    },
                     portfolio : 0,
-                    stocks : {}
+                   
                 })
 
                 
@@ -149,7 +149,7 @@ $(document).ready(function() {
 
                 
                 
-                localStorage.setItem("key", key);
+                // localStorage.setItem("key", key);
                 
                 key = userTable[""+ uid + ""];
                 console.log(key)

@@ -19,6 +19,31 @@ $(document).ready(function() {
 
      }
 
+     // dynamically adds holdings based on user's stocks
+     function setHoldings() {
+        for (var stock in user.stocks) {
+            var holding = $("<div class = 'holding' ></div>");
+            var name = $("<div class = 'stockName'></div>");
+            var num = $("<div class = 'shareNumber'></div>");
+            var price = $("<div class = 'price'></div>");
+            name.text(stock);
+             console.log(user.stocks)
+
+            num.text(user.stocks[stock][1] + " shares");
+            price.attr("id", stock);
+            holding.append(name);
+            holding.append(num);
+            holding.append(price);
+
+
+            $("#holdings").append(holding);
+
+        }
+
+
+     }
+
+
     var showSharesxPrices = false;
     var dayIndex = 77;
     var displayName ="";
@@ -28,7 +53,6 @@ $(document).ready(function() {
     portfolioHistoryDay = [];
     var currentUser;
     var alphaVantageKey = "QEX4QCA7O8Q6PC86";
-    var newAccount = false;
     var dataBaseUserSnap;
 
 
@@ -72,13 +96,13 @@ $(document).ready(function() {
         });
 
         console.log(user);
-        //callStocks();
 
     });
 
     // when page loads, get which user it is by getting the key from the local storage and using that to grab 
     // user information
     database.ref('/users').once("value", function(snapshot) {
+        
         var key = localStorage.getItem("key");
          dataBaseUserSnap = snapshot.val()[key];
         user.wallet = dataBaseUserSnap.wallet;
@@ -88,6 +112,9 @@ $(document).ready(function() {
         user.name = dataBaseUserSnap.name;
         if (user.stocks != null) {
             callStocks();
+            setHoldings();
+        } else {
+            console.log("user has no stocks so call stocks isn't called")
         }
 
     });
@@ -141,6 +168,9 @@ $(document).ready(function() {
    
 
     var callStocks = function() {
+        if (user.stocks != null) {
+            // console.log("here")
+
         var  dataBaseUser = database.ref('/users').child(localStorage.getItem("key"));
         console.log(dataBaseUser);    
       // console.log(dataBaseUserSnap)            
@@ -200,6 +230,7 @@ $(document).ready(function() {
                 console.log(user)
 
 
+            
                 // CHECK IF THIS WORKS!
                 console.log(user.portfolio)
                 dataBaseUser.set({
@@ -208,7 +239,6 @@ $(document).ready(function() {
                     wallet : user.wallet,
                     numStocks : user.numStocks,
                     name : user.name,
-
                     
                 });
                // console.log(dataBaseUserSnap);
@@ -241,6 +271,7 @@ $(document).ready(function() {
                 // console.log(temp);
                 
             }).then(function() {
+                console.log(temp + "" + user.numStocks)
                     if (temp === user.numStocks) {
                        // console.log("after")
                         portfolioHistoryDay.length = dayIndex;
@@ -252,7 +283,10 @@ $(document).ready(function() {
                     }
 
             });   
-        
+        }
+
+        } else {
+            console.log("user has no stocks so call stocks isn't called")
 
         }
                 
@@ -264,7 +298,7 @@ $(document).ready(function() {
        
     function afterPromise() {
         //console.log("entered afterPromise")
-         //console.log(value);
+         console.log("after");
        //  console.log(portfolioHistoryDay[1]);
 
          var arr = [];
