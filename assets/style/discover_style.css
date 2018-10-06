@@ -158,7 +158,7 @@ body{
     color: #28a745;
     margin-right: 10px;
 }
-
+ 
 
 .links {
     color: white;
@@ -167,4 +167,11 @@ body{
     
 }
 
+#searchBox {
+    width: 50%;
+}
+
+.links:hover {
+    color: #28a745;
+}
 
