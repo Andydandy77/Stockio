@@ -673,7 +673,7 @@ $(document).ready(function() {
                   buySell = "selling";
                   //subtracting shareamount from the totalamount since we are selling.
                   totalAmount = parseInt(hasShare) - parseInt(shareAmount);
-                } else {
+                } else if (this.id ==="sellStock" && hasShare < shareAmount ){ 
                   proceed = false;
                   alert("Don't have enough Share");
                 };
