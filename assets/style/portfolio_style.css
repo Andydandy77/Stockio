@@ -1,7 +1,7 @@
 .navbar-brand {
     color: #28a745 !important;
     font-weight: 150;
-    font-family: 'Francois One', sans-serif;
+    font-family: 'Abril Fatface', cursive;
 }
 
 #portfolioGraph {
@@ -82,9 +82,13 @@
 
 .links {
     color: white;
-    text-decoration: underline;
+    font-family: 'Abril Fatface', cursive;
 }
 
 .links:hover {
     color: #28a745;
+}
+
+#searchBox {
+    font-family: 'Abril Fatface', cursive;
 }
