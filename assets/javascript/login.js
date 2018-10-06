@@ -19,7 +19,6 @@ $(document).ready(function() {
 
     $(document).on("click", "#loginButton", login);
     $(document).on("click", "#signUpButton", signUp);
-    $(document).on("click", "#logoutButton", logout);
 
     function login() {  
         console.log("entered login");
@@ -41,20 +40,20 @@ $(document).ready(function() {
             
     };
 
-    function logout(event) {
+    // function logout(event) {
 
-        console.log("logout")
-        //window.location = 'index.html'
-        firebase.auth().signOut()
-        // window.location = 'index.html';
-            // Sign-out successful.
-        $(".userEmail").empty();
-        console.log("They signed out Trae");
+    //     console.log("logout")
+    //     //window.location = 'index.html'
+    //     firebase.auth().signOut()
+    //     // window.location = 'index.html';
+    //         // Sign-out successful.
+    //     $(".userEmail").empty();
+    //     console.log("They signed out Trae");
         
         
         
 
-    };
+    // };
 
     function signUp() {
         newAccount = true;
@@ -92,8 +91,7 @@ $(document).ready(function() {
     firebase.auth().onAuthStateChanged(function (user) {
         //console.log(JSON.stringify(userTable))
         if(user) {
-            // window.location = 'portfolio.html'
-        //  console.log("hello")
+            window.location = "portfolio.html"
             console.log("hello");
             var user = firebase.auth().currentUser;
             console.log("user is " + user);
@@ -162,7 +160,6 @@ $(document).ready(function() {
         
             //console.log(user)
             $(".userEmail").text(email); 
-            //window.location = 'portfolio.html'// display user email at top of page when logged in
 
         } else {
             // No user is signed in.
@@ -187,5 +184,7 @@ $(document).ready(function() {
         console.log(userTable);
 
     });
+
+   
 
 });
