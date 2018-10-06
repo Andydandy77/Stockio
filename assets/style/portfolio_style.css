@@ -84,3 +84,7 @@
     color: white;
     text-decoration: underline;
 }
+
+.links:hover {
+    color: #28a745;
+}
