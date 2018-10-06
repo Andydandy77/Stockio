@@ -16,13 +16,17 @@
 
 }
 
-
+/* 
 #holdingSection {
     margin-left: 70px;
-}
+} */
 
 .title {
     text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Noto Serif', serif;
+    font-weight: bold;
 }
 
 .holding {
@@ -31,9 +35,12 @@
     padding: 10px;
 }
 
+.holdingtitle{
+    color:white;
+}
 .stockName{
 
-    width: 100px;
+    width: 80px;
     height: 40px;
     background-color: #5de27c;
     color: white;
@@ -68,6 +75,12 @@
     height: 500px;
 }
 
+.porttitle{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:30px;
+}
+
 .linkText {
     font-weight: bold;
 }
@@ -88,7 +101,72 @@
 .links:hover {
     color: #28a745;
 }
-
 #searchBox {
-    font-family: 'Abril Fatface', cursive;
+   font-family: 'Abril Fatface', cursive;
+}
+
+
+
+
+/* same as discover */
+
+/* body Background */
+body{
+    /* background: rgb(75, 102, 136); */
+    background:#1f2327;
+    /* #6c757d */
+}
+
+/* Left Half of the Page */
+.firstHalf{
+    background-color: white;
+}
+
+/* Right Half of the Page */
+.secondHalf{
+    margin: 0;
+    background-color: rgb(1, 0, 3);
+}
+
+
+
+/* Font */
+.minorFont{
+    color: white;
+
+}
+
+/* font for displaying initial and current and final status */
+.fontStatus{
+    font-size: 1em;
+    color: white; 
+}
+
+.container{
+    margin-right: auto;
+    margin-left: auto;
+   }
+   
+   /* Portfolio Graph */
+   #portfolioGraph {
+       border-width: 1px;
+       border-style: solid;
+       border-color: #d3d3d3;
+       height: 400px;
+        width:80%;
+        margin-left: 50px;
+       /* margin-left: 250px; */
+   }
+   
+   .portfolio {
+       margin-top: 75px;
+   }
+   
+   .minorFont{
+    color: white;
+
+}
+
+.shareNumber{
+    color: white; 
 }

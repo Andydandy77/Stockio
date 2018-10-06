@@ -41,104 +41,52 @@
         <a class= "links" href="portfolio.html">Portfolio</a>
         <a class= "links" href="discover.html">Discover/Buy</a>
         <form class="form-inline">
-          <input id="searchBox" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button id="searchButton" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           <button id="searchButton" class="btn btn-outline-success my-2 my-sm-0" type="button" id="logoutButton" onclick="logout()">Logout</button>
         </form>
     </nav>
 
-    <div class = "container">
+   <!-- Main Body Graph -->
+<div class="container row">
+    <div class = "col-lg-8 firstHalf">
         <div class = "portfolio">
-        
-        
             <div class = "row">
-
-                <div class = 'col-lg-7'>
-                        <h2 class ='title'>Portfolio Summary</h2>
+                 
+                    <h1 class ="title">Portfolio Summary</h1>
                         <div id = 'portfolioGraph'>
-                            <svg></svg>
-
+                        <svg></svg>
                         </div>
-
-
+               
+                   
+            </div>
+           <!-- Main Body News -->
+            <div class = 'row'>
+                <div class="porttitle">
+                    <h1 class="title">Stock Information</h1>
+                    <div class = 'col-lg-8' id="news"></div>
                 </div>
-                
-
-                <div class = 'col-lg-4' id = "holdingSection">
-                        <h2 class = 'title'>Holdings</h2>
-                        <div id = 'holdings'>
-                            <!-- <div class = 'holding'>
-                                <div class= 'stockName'>
-                                    <p>AAPL</p>   
-                                </div>
-
-                                <div class = 'shareNumber'>
-                                    <p>4 shares </p>
-                                </div>
-
-                                <div class = 'price' id ='AAPL'>
-                                    
-
-                                </div>
-                                
-
-                            </div>
-
-                            <div class = 'holding'>
-                                    <div class= 'stockName'>
-                                        <p>AMZN</p>
-                                    </div>
-
-                                    <div class = 'shareNumber'>
-                                            <p>2 shares </p>
-                                    </div>
-        
-                                    <div class = 'price' id = 'AMZN'>
-                                        
-        
-                                    </div>
-                            </div>
-
-                            <div class = 'holding'>
-                                    <div class= 'stockName'>
-                                        <p>GOOGL</p>
-                                    </div>
-
-                                    <div class = 'shareNumber'>
-                                            <p>8 shares </p>
-                                    </div>
-        
-                                    <div class = 'price' id = 'GOOGL'>
-                                        
-        
-                                    </div>
-                            </div> -->
-
-
-                            
-                        </div>
-
-                </div>
-        </div>
-        <br>
-            <br>
-            <h1>Stock Information:</h1>
-        <div class = 'row'>
-            <div class = 'col-lg-7' id = 'news'></div>
-                
-                
-                
-
             </div>
         </div>
-        </div>
-
-
     </div>
 
+ 
+                
+<!-- Gold Bar -->
+    <div class="dividngBar"></div>
 
-
-
+<!-- Main Body for buttons -->
+    <div class = "container col-lg-4 secondHalf" id = "holdingSection">
+        <br>
+        <h1 class = 'title holdingtitle'>Holdings</h1>
+            <div id = 'holdings'>
+       
+            </div>
+        
+        <br>
+        <br>
+            
+    </div>
+    
+</div>
 
 
   </body>

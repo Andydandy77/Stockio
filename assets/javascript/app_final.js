@@ -58,7 +58,7 @@ $(document).ready(function() {
     var key = "";
     var price = 0;
     var moneyHere = 0;
-
+    var searched = false;
     var user = {
 
         wallet: 0,
@@ -424,7 +424,8 @@ $(document).ready(function() {
 
      $("#searchButton").on("click", function(event) {
         event.preventDefault();
-            
+        
+        searched = true;
         // Grabs user input, put it in var displayname.
          name = $(".form-control").val();
         // Clears all of the text-boxes
@@ -506,127 +507,7 @@ $(document).ready(function() {
               timeArray.push(prices[i])
             };
       
-          
-      
-    //         //Pulling and Comparing most recent time and stock price. DUPLICATE ++++++++++++++++++++++++++++++++++
-    //             // for (var timeStamp in prices) {
-    //             //     var diff =moment().diff(moment(timeStamp, "YYYY-MM-DD HH:mm:ss") , "minutes");
-      
-    //             //     if (diff < min) {
-    //             //         min = diff;
-    //             //         mostRecentTime = timeStamp;
-    //             //     }
-                
-    //             // };
-      
-    //             // //Stock Price of the current time.
-    //             // price = prices[mostRecentTime]["4. close"];
-             
-               
-      
-    //       for(var i = 0; i < 77; i++) {
-    //         historyDay.push(0);
-    //       }
-      
-      
-    //       var fiveMinsAfter = moment(mostRecentTime, "YYYY-MM-DD HH:mm:ss" ).set("hour", 9);
-    //       fiveMinsAfter = fiveMinsAfter.set("minute" , 30);
-      
-    //       var dayIndex = 0;
-    //       while(fiveMinsAfter.format("YYYY-MM-DD HH:mm:ss") !== mostRecentTime){
-    //           historyDay[dayIndex] = historyDay[dayIndex] + parseInt(prices[fiveMinsAfter.format("YYYY-MM-DD HH:mm:ss")]["4. close"]) ;
-    //           fiveMinsAfter = fiveMinsAfter.add('5' ,"minutes");
-    //           dayIndex++;
-              
-    //       }
-      
-    //     }).then(function() {
-    //       afterPromise();
-      
-    //     });
-      
-    //     // These two functions will be deleted when we combine Chi and My javascript files
-    //     function afterPromise() {
-    //       console.log("entered afterPromise")
-    //        //console.log(value);
-    //      //  console.log(historyDay[1]);
-      
-    //        var arr = [];
-    //        var time = moment("9:30", "hh:mm");
-    //        for (var i = 0; i < historyDay.length; i++) {
-    //           // var converted = d3.time.format("%H-%M");
-    //           // console.log(converted(time.format("hh:mm")))
-      
-    //           //console.log(historyDay[i]);
-    //           dataPoint = {
-    //               date: new Date(),
-    //               value: historyDay[i]
-    //           }
-    //           dataPoint.date.setHours(time.hours())
-    //           dataPoint.date.setMinutes(time.minutes());
-    //           console.log(dataPoint);
-    //            arr.push(dataPoint);
-               
-    //            time.add('5', "minutes");
-    //        }
-    //        console.log(arr);
-      
-    //        drawChart(arr);
-    //   }
-      
-      
-    //    function drawChart(data) {
-    //        $("#portfolioGraph").empty();
-    //        $("#portfolioGraph").append("<svg></svg");
-    //        //d3.select("svg").
-      
-    //        console.log("entered drawChart")
-    //        var svgWidth = 600, svgHeight = 400;
-    //        var margin = { top: 20, right: 20, bottom: 30, left: 50 };
-    //        var width = svgWidth - margin.left - margin.right;
-    //        var height = svgHeight - margin.top - margin.bottom;
-    //        var svg = d3.select('svg')
-    //          .attr("width", svgWidth)
-    //          .attr("height", svgHeight);
-    //        var g = svg.append("g")
-    //        .attr("transform", 
-    //            "translate(" + margin.left + "," + margin.top + ")"
-    //        );
-    //        var x = d3.scaleTime().rangeRound([0, width]);
-    //        var y = d3.scaleLinear().rangeRound([height, 0]);
-      
-    //        var line = d3.line()
-    //        .x(function(d) { return x(d.date)})
-    //        .y(function(d) { return y(d.value)})
-    //        x.domain(d3.extent(data, function(d) { return d.date }));
-    //        y.domain(d3.extent(data, function(d) { return d.value }));
-      
-    //        g.append("g")
-    //        .attr("transform", "translate(0," + height + ")")
-    //        .call(d3.axisBottom(x))
-    //        .select(".domain")
-    //        .remove();
-      
-    //        g.append("g")
-    //        .call(d3.axisLeft(y))
-    //        .append("text")
-    //        .attr("fill", "#000")
-    //        .attr("transform", "rotate(-90)")
-    //        .attr("y", 6)
-    //        .attr("dy", "0.71em")
-    //        .attr("text-anchor", "end")
-    //       //  .text("Price ($)");
-      
-    //        g.append("path")
-    //        .datum(data)
-    //        .attr("fill", "none")
-    //        .attr("stroke", "#5de27c")
-    //        .attr("stroke-linejoin", "round")
-    //        .attr("stroke-linecap", "round")
-    //        .attr("stroke-width", 2)
-    //        .attr("d", line);
-      
-      
+        
        });
       
       
@@ -651,6 +532,8 @@ $(document).ready(function() {
       
             //calculating the total amount to be deducted from my wallet.
             $(".dropdown-item").on("click", function(event){
+
+                if (searched = true){
                 buttonPressed = true;
                 shareAmount = $(".shareBox").val();
                 totalStock = shareAmount * moneyHere
@@ -677,6 +560,9 @@ $(document).ready(function() {
                   proceed = false;
                   alert("Don't have enough Share");
                 };
+            } else if (searched = false){
+                alert("Search Your Stock!");
+            };
                
                 //calculating change in money. 
                 currentMoney = user.wallet + totalStock;
@@ -716,6 +602,7 @@ $(document).ready(function() {
               $(".shareBox").val("");
               $(".currentStatus").html("");  
               $(".initialStatus").html("");
+              searched = false;
       
             } else {
               alert("Please Fix Share Amount");
