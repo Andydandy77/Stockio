@@ -397,6 +397,7 @@ $(document).ready(function() {
               snapshot.exists()
                 
               hasName = snapshot.exists();
+              console.log(hasName);
            
             });
             
@@ -405,8 +406,9 @@ $(document).ready(function() {
             hasMoney = user.wallet;
          
             console.log(user.wallet);
-  
+            
             if (hasName === true && hasShare === 1 ){
+                console.log(hasName)
               $(".initialStatus").html("You currently have <br>" + hasShare + " share of " + hasName + ". <br> You have $"+ hasMoney +" <br> in your My Wallet." )
             } else if (hasName === true && hasShare > 1 ) {
               $(".initialStatus").html("You currently have <br>" + hasShare + " shares of " + hasName + ". <br> You have $"+ hasMoney +"<br> in your My Wallet." )
