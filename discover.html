@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet"> 
     <link rel="stylesheet" href="assets/style/discover_style.css">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Serif" rel="stylesheet">
+
 
 </head>
 
@@ -20,24 +22,33 @@
 
 <!-- NavBar -->
 <nav class="navbar navbar-light bg-dark justify-content-between">
-    <a class="navbar-brand">Stockio</a>
+    <a class="navbar-brand col-md-3 col-sm-4 col-12">Stockio</a>
 
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item active">
-            <a class="nav-link" href="#"> Portfolio <span class="sr-only">(current)</span></a>
-        </li>  
-    </ul>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-12"></div>
+  
+          <span class="navbar-text col-lg-4 col-md-8 col-sm-5 col-10">
+            <ul class="navbar-nav mr-auto">
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="discover.html">New Search</a>
+                </li> -->
+               
+                <li class="nav-item">
+                    <a class="nav-link" href="portfolio.html">Portfolio</a>
+                </li>
+                
+               
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Log Out</a>
+                </li>
 
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item active">
-            <a class="nav-link" href="#"> Log Out <span class="sr-only">(current)</span></a>
-        </li>  
-    </ul>
+                <form class="form-inline">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="searchButton btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </ul>
+        </span>
     
-    <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="searchButton btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+   
 </nav>
 
     
@@ -47,7 +58,7 @@
         <div class = "portfolio">
             <div class = "row">
                  
-                    <h2 id="newSearchName" class ="title">New Search</h2>
+                    <h1 id="newSearchName" class ="title">New Search</h1>
                         <div id = 'portfolioGraph'>
                         </div>
                
@@ -56,7 +67,7 @@
             </div>
            <!-- Main Body News -->
             <div class = 'row'>
-                <div id = 'news'>
+                <div id = 'news' class="title">
                     <h1>Relevant News</h1>
                 </div>
             </div>
