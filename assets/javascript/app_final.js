@@ -753,7 +753,7 @@ $(document).ready(function() {
         //console.log(JSON.stringify(userTable))
         if(user) {
             var user = firebase.auth().currentUser;
-            $(".userEmail").text("Welcome: " + user.email);
+            $(".userEmail").append("<span style='color: white'>User:</span> " + user.email);
             
         }
 
