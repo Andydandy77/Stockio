@@ -79,3 +79,8 @@
 .userEmail {
     color: #28a745;
 }
+
+.links {
+    color: white;
+    text-decoration: underline;
+}

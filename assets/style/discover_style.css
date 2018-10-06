@@ -156,8 +156,15 @@ body{
 
 .userEmail {
     color: #28a745;
+    margin-right: 10px;
 }
 
-searchBox {
-    float: left !important;
+
+.links {
+    color: white;
+    text-decoration: underline;
+    margin-right: 10px;
+    
 }
+
+
