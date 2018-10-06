@@ -271,7 +271,7 @@ $(document).ready(function() {
                     if (temp === user.numStocks) {
                        // console.log("after")
                         portfolioHistoryDay.length = dayIndex;
-                        afterPromise();
+                        afterPromise(portfolioHistoryDay, "#portfolioGraph");
                         // console.log(portfolioHistoryDay)
 
                         // console.log("done")
@@ -290,25 +290,25 @@ $(document).ready(function() {
 
     console.log(price);
     
-    setInterval(callStocks, 60000);
+    //setInterval(callStocks, 60000);
 
     console.log(user.wallet);
        
-    function afterPromise() {
+    function afterPromise(array, graph) {
         //console.log("entered afterPromise")
      
        //  console.log(portfolioHistoryDay[1]);
 
          var arr = [];
          var time = moment("9:30", "hh:mm");
-         for (var i = 0; i < portfolioHistoryDay.length; i++) {
+         for (var i = 0; i < array.length; i++) {
             // var converted = d3.time.format("%H-%M");
             // console.log(converted(time.format("hh:mm")))
 
             //console.log(portfolioHistoryDay[i]);
             dataPoint = {
                 date: new Date(),
-                value: portfolioHistoryDay[i]
+                value: array[i]
             }
             dataPoint.date.setHours(time.hours())
             dataPoint.date.setMinutes(time.minutes());
@@ -318,13 +318,13 @@ $(document).ready(function() {
              time.add('5', "minutes");
          }
       
-         drawChart(arr);
+         drawChart(arr, graph);
     }
 
  
-     function drawChart(data) {
-         $("#portfolioGraph").empty();
-         $("#portfolioGraph").append("<svg></svg");
+     function drawChart(data, graph) {
+         $(graph).empty();
+         $(graph).append("<svg></svg");
          //d3.select("svg").
 
          console.log("entered drawChart")
@@ -497,15 +497,47 @@ $(document).ready(function() {
         // After the data comes back from the API
           .then(function(response) {
            
-      
+            var mostRecentTime;
+                
+            
             //API call, putting time value into variable prices. 
             prices = response["Time Series (5min)"];
-      
+            var timeArray = [];
+            var dayIndex = 0;
+            var min = 1000000000000;
+            for (var timeStamp in prices) {
+                //console.log(timeStamp);
+                //portfolioHistoryDay.push(prices[timeStamp]["4. close"]);
+                var diff = moment().diff(moment(timeStamp, "YYYY-MM-DD HH:mm:ss") , "minutes");
+
+                if (diff < min) {
+                    min = diff;
+                    mostRecentTime = timeStamp;
+                }
+            
+                
+            
+            }
             //pushing pries into timeArray array 
-            timeArray.push(prices);
-            for (i = 0;i<prices.length; i++){
-              timeArray.push(prices[i])
-            };
+            var fiveMinsAfter = moment(mostRecentTime, "YYYY-MM-DD HH:mm:ss" ).set("hour", 9);
+            fiveMinsAfter = fiveMinsAfter.set("minute" , 30);
+            while(fiveMinsAfter.format("YYYY-MM-DD HH:mm:ss") !== mostRecentTime){
+                //console.log("here")
+                timeArray.push(parseInt(prices[fiveMinsAfter.format("YYYY-MM-DD HH:mm:ss")]["4. close"])) ;
+                
+                fiveMinsAfter = fiveMinsAfter.add('5' ,"minutes");
+
+
+                
+
+            }
+            
+            console.log(timeArray);
+
+            //timeArray.length = prices.length;
+            afterPromise(timeArray, "#discoverGraph");
+
+
       
         
        });

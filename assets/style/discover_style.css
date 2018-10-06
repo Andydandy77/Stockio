@@ -16,7 +16,7 @@
 }
 
 /* Portfolio Graph */
-#portfolioGraph {
+#discoverGraph {
     border-width: 1px;
     border-style: solid;
     border-color: #d3d3d3;
@@ -39,6 +39,8 @@
 
 #news {
     margin-top:20px;
+    margin-left: 50px;
+    margin-right: 50px;
   
 
 }
