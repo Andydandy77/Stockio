@@ -92,9 +92,8 @@ $(document).ready(function() {
     firebase.auth().onAuthStateChanged(function (user) {
         //console.log(JSON.stringify(userTable))
         if(user) {
-            // window.location = 'portfolio.html'
-        //  console.log("hello")
-            console.log("hello");
+            window.location = 'portfolio.html'
+
             var user = firebase.auth().currentUser;
             console.log("user is " + user);
             console.log("user id is " + user.uid)
