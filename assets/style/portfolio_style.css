@@ -72,9 +72,10 @@
     font-weight: bold;
 }
 
-
-
-.line-chart
-    {
+.line-chart {
         border: 1px solid lightgray;
-    }
+}
+
+.userEmail {
+    color: #28a745;
+}

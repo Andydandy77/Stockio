@@ -39,7 +39,6 @@
 
 #news {
     margin-top:20px;
-    height: 500px;
   
 
 }
@@ -152,4 +151,13 @@ body{
 /* font for displaying initial and current and final status */
 .fontStatus{
     font-size: 1em;
-    color: white;
+    color: white; 
+}
+
+.userEmail {
+    color: #28a745;
+}
+
+searchBox {
+    float: left !important;
+}

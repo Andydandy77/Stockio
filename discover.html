@@ -1,56 +1,35 @@
 <!doctype html>
 <html lang="en">
   <head>
-
     <title>Title</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet"> 
     <link rel="stylesheet" href="assets/style/discover_style.css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif" rel="stylesheet">
-
-
 </head>
-
 <body>
     
-
-
 <!-- NavBar -->
 <nav class="navbar navbar-light bg-dark justify-content-between">
     <a class="navbar-brand col-md-3 col-sm-4 col-12">Stockio</a>
-
+    <h5 class="userEmail"></h5>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="discover.html">Discover/Buy</a>
     <div class="col-lg-4 col-md-4 col-sm-6 col-12"></div>
-  
-          <span class="navbar-text col-lg-4 col-md-8 col-sm-5 col-10">
-            <ul class="navbar-nav mr-auto">
-                <!-- <li class="nav-item">
-                    <a class="nav-link" href="discover.html">New Search</a>
-                </li> -->
-               
-                <li class="nav-item">
-                    <a class="nav-link" href="portfolio.html">Portfolio</a>
-                </li>
-                
-               
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Log Out</a>
-                </li>
-
                 <form class="form-inline">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="searchButton btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        <input id="searchBox" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button  id="searchButton" class="searchButton btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="logoutButton" onclick="logout()">Logout</button>
                 </form>
             </ul>
         </span>
     
    
 </nav>
-
     
 <!-- Main Body Graph -->
 <div class="container row">
@@ -69,6 +48,7 @@
             <div class = 'row'>
                 <div id = 'news' class="title">
                     <h1>Relevant News</h1>
+                    <div class = 'col-lg-7' id="news"></div>
                 </div>
             </div>
         </div>
@@ -77,10 +57,8 @@
 <!-- Gold Bar -->
     <div class="dividngBar"></div>
 <!-- Main Body for buttons -->
-
     <div class = "container col-lg-3 secondHalf">
         <br>
-
         <!-- Displays the user's stock/share amount before selling/buying -->
         <div class="initialStatus fontStatus"></div>
       
@@ -91,31 +69,25 @@
                 <input class="form-control shareBox" type="text" placeholder="1-10" id="example-text-input">
             </div>
         </div>
-
         <!-- User Input. Chooses whether Buying or Selling. -->
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Buy/Sell
             </button>
-
             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                 <button class="dropdown-item" type="button" id="buyStock">Buy Stock</button>
                 <button class="dropdown-item" type="button" id="sellStock">Sell Stock</button>
             </div>
         </div>
-
         <!-- Display what the outcome will be when pressed "execute trade" button -->
         <div class="currentStatus fontStatus"></div>
-
         <!-- User Input. Executes the final decision -->
         <div class="one-third column">
             <p><input type="submit" value="Execute Trade" id="tradeStock" class="discoverButton wet-asphalt-flat-button">
             </p>
         </div>  
     
-
         <div id="holding"></div>
-
         
         <!-- Displays how much money User has -->
         <div class="column minorFont moneyGoesHere">
@@ -124,10 +96,8 @@
             
     </div>
     
-
 </div>
         
-
     
         <!-- Google Font link -->
     <!-- Optional JavaScript -->

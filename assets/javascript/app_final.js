@@ -56,6 +56,7 @@ $(document).ready(function() {
     var dataBaseUserSnap;
     var wallet = 10000;
     var key = "";
+    var price = 0;
 
     var user = {
 
@@ -69,8 +70,7 @@ $(document).ready(function() {
         name : ""
 
     }
-
-    
+        
 
     // maybe i dont need this
     database.ref('/userKeys').on("value", function(snapshot) {
@@ -176,13 +176,14 @@ $(document).ready(function() {
             var price = 0;
             var temp = 0
             
-            //console.log(stock);
+            console.log(stock);
             $.ajax({
                 url: queryUrl,
                 method: 'GET'
-
+           
             }).then(function (response){
-                //console.log(response);
+        
+                console.log(response);
                 
                 dayIndex = 0;
                 var prices = response["Time Series (5min)"];
@@ -204,12 +205,14 @@ $(document).ready(function() {
                         mostRecentTime = timeStamp;
                     }
                 
+                    
+                
                 }
 
                 price = prices[mostRecentTime]["4. close"];
-                //console.log(price);
-
-                //console.log(user.portfolio);
+                console.log(price);
+                console.log("i hate my life");
+                console.log(user.portfolio);
 
                 // NEED TO SET OBJECT AND THEN SET FIREBASE
                 var sharesxPrices =  price * user.stocks[stock][1];
@@ -367,6 +370,42 @@ $(document).ready(function() {
  
      }
 
+     //                  WSJ API search results code                           */
+     //****************************************************** */
+
+     $("#searchButton").on("click", function (event) {
+        event.preventDefault();
+        
+        
+        var userSearched = $("#searchBox").val();
+        var WSJapiKey = 'fb343e74a520490caf474136e57f431f';
+        var WSJqueryURL = 'https://newsapi.org/v2/everything?' +'q='+userSearched+'&' +'apiKey=' + WSJapiKey;
+
+        $.ajax({
+            url: WSJqueryURL,// my ajax call
+            method: "GET"
+        })
+
+        .then(function(response) { // After the data from the AJAX request comes back
+            var newsHeadLink = $("<a class=linkText>");
+            var smallDescription = $("<small>"); 
+            smallDescription.text(response.articles[0].description)
+            newsHeadLink.text(response.articles[0].title);
+            newsHeadLink.attr("href", response.articles[0].url);
+            $("#news").append(newsHeadLink);
+            $("#news").append("<br></br>");
+            $("#news").append(smallDescription);
+            $("#news").append("<br></br>");
+            $('html, body').scrollTop( $(document).height() );
+        
+
+            // grab the title and put it into a h3 element, then add a href attr to that h3 element with the url
+
+
+        });
+
+    })
+
      
      //                  Chi's Code                           */
      //****************************************************** */
@@ -390,14 +429,23 @@ $(document).ready(function() {
         //upon search, it displays whether i have that stock, if i do, how many, etc.
         database.ref().on("child_added", function(childSnapshot) {
         
-            hasShare = user.stocks;
             console.log(user.stocks)
           
+            database.ref('/users/'+key+'/stocks/'+name.toUpperCase()).once("value", function(snapshot) {
+                snapshot.val()
+                  
+               hasShare = snapshot.val()[1];
+               console.log(hasShare);
+               
+             
+              });
+
             database.ref('/users/'+key+'/stocks/'+name.toUpperCase()).once("value", function(snapshot) {
               snapshot.exists()
                 
               hasName = snapshot.exists();
               console.log(hasName);
+              console.log(hasShare);
            
             });
             
@@ -453,20 +501,20 @@ $(document).ready(function() {
           
       
             //Pulling and Comparing most recent time and stock price. DUPLICATE ++++++++++++++++++++++++++++++++++
-                for (var timeStamp in prices) {
-                    var diff =moment().diff(moment(timeStamp, "YYYY-MM-DD HH:mm:ss") , "minutes");
+                // for (var timeStamp in prices) {
+                //     var diff =moment().diff(moment(timeStamp, "YYYY-MM-DD HH:mm:ss") , "minutes");
       
-                    if (diff < min) {
-                        min = diff;
-                        mostRecentTime = timeStamp;
-                    }
+                //     if (diff < min) {
+                //         min = diff;
+                //         mostRecentTime = timeStamp;
+                //     }
                 
-                };
+                // };
       
-                //Stock Price of the current time.
-                price = prices[mostRecentTime]["4. close"];
+                // //Stock Price of the current time.
+                // price = prices[mostRecentTime]["4. close"];
              
-          
+                console.log(price);
       
           for(var i = 0; i < 77; i++) {
             historyDay.push(0);
@@ -574,6 +622,7 @@ $(document).ready(function() {
        }
       
       
+       console.log(price);
       
          
             //whehter user wants to buy or sell
@@ -611,53 +660,34 @@ $(document).ready(function() {
                   proceed = false;
                   alert("Not Enough Money");
         
-                } else if (this.id ==="sellStock" && totalAmount > shareAmount ){
-                  proceed = true;
-                  buySell = "selling";
-                  //subtracting shareamount from the totalamount since we are selling.
-                  totalAmount -= shareAmount;
-                } else {
-                  proceed = false;
-                  alert("Don't have enough Share");
-                };
-               
-                //calculating change in money. 
-                currentMoney = user.wallet + totalStock;
-               
-          
-              
-              //Displaying what the user is doing before clicking trade button.
-        
-                if (shareAmount === "1" && proceed)
-                { console.log("one")
-                  $(".currentStatus").html("You are "+ buySell + "<br> " + shareAmount + " share of "+ name + " stock. <br> The total is $" + moneyDisplay + ". <br> Your Wallet balance will change to <br> $" + currentMoney + ".")
-                } else if (shareAmount > 1 && proceed) {
-                $(".currentStatus").html("You are "+ buySell + "<br> " +  shareAmount + " shares of "+ name + " stock.<br>  The total is $" + moneyDisplay + ". <br> Your Wallet balance will change to <br> $" + currentMoney + ".") }
-                  else {
-                    return;
-                  }
-        
-                
-              });
-      
             
+    //         //Displaying what the user is doing before clicking trade button.
       
-            //deducting from my wallet.
-            $("#tradeStock").on("click", function(event) {
-              if(buttonPressed && proceed){
-              $(".moneyGoesHere").html("<div> My Wallet : "+ currentMoney +"</div>");
+    //           if (shareAmount === "1" && proceed)
+    //           { console.log("one")
+    //             $(".currentStatus").html("You are "+ buySell + "<br> " + shareAmount + " share of "+ displayName + " stock. <br> The total is $" + totalStock + ". <br> Your Wallet balance will change to <br> $" + currentMoney + ".")
+    //           } else if (shareAmount > 1 && proceed) {
+    //           $(".currentStatus").html("You are "+ buySell + "<br> " +  shareAmount + " shares of "+ displayName + " stock.<br>  The total is $" + totalStock + ". <br> Your Wallet balance will change to <br> $" + currentMoney + ".") }
+    //             else {
+    //               return;
+    //             }
+    //         });
 
-
-    //QQQQQQ  // updating everything to 
-              // user.stocks.push(displayName, price, shareAmount); THIS CAN BE DELETED ONCE LINKED TO TRAE;s  ------------------------------------------------------
-              database.ref().push({
-                stockName: displayName,
-                stockShare: totalAmount,
-                myMoney: currentMoney
-              });
       
-              shareAmount = 0;
-              money = currentMoney;
+ 
+    //         //deducting from my wallet.
+    //         $("#tradeStock").on("click", function(event) {
+    //           if(buttonPressed && proceed){
+    //           $(".moneyGoesHere").html("<div> My Wallet : "+ currentMoney +"</div>");
+    //           // user.stocks.push(displayName, price, shareAmount); THIS CAN BE DELETED ONCE LINKED TO TRAE;s  ------------------------------------------------------
+    //           database.ref().push({
+    //             stockName: displayName,
+    //             stockShare: totalAmount,
+    //             myMoney: currentMoney
+    //           });
+      
+    //           shareAmount = 0;
+    //           money = currentMoney;
            
               
       //QQQQ  //Removing stock name from portfolio page IF totalamount reaches 0
@@ -706,21 +736,31 @@ $(document).ready(function() {
        });
     
 
+     // When user is logged in add username to navbar
+    firebase.auth().onAuthStateChanged(function (user) {
+        //console.log(JSON.stringify(userTable))
+        if(user) {
+            var user = firebase.auth().currentUser;
+            $(".userEmail").text("Welcome: " + user.email);
+            
+        }
 
-
-
-
+    });
+        
+    
 });
 
+// Logout function
 function logout() {
 
     console.log("logout")
     window.location = 'index.html'
     firebase.auth().signOut()
-    // window.location = 'index.html';
         // Sign-out successful.
     $(".userEmail").empty();
     console.log("They signed out Trae");
 
 
 };
+
+
