@@ -50,13 +50,14 @@ $(document).ready(function() {
     var hasName = false;
     var hasShare = 0;
     var hasMoney = 0;
-    portfolioHistoryDay = [];
+    var portfolioHistoryDay = [];
     var currentUser;
     var alphaVantageKey = "QEX4QCA7O8Q6PC86";
     var dataBaseUserSnap;
     var wallet = 10000;
     var key = "";
     var price = 0;
+    var moneyHere = 0;
 
     var user = {
 
@@ -186,8 +187,9 @@ $(document).ready(function() {
                 console.log(response);
                 
                 dayIndex = 0;
-                var prices = response["Time Series (5min)"];
-               // console.log(prices);
+                prices = response["Time Series (5min)"];
+               console.log(prices);
+               console.log(moneyHere);
                 var meta = response["Meta Data"];
                 var stock = meta["2. Symbol"];
 
@@ -210,7 +212,9 @@ $(document).ready(function() {
                 }
 
                 price = prices[mostRecentTime]["4. close"];
+                moneyHere = price;
                 console.log(price);
+                console.log(moneyHere);
                 console.log("i hate my life");
                 console.log(user.portfolio);
 
@@ -283,6 +287,8 @@ $(document).ready(function() {
         }
                 
     };
+
+    console.log(price);
     
     setInterval(callStocks, 60000);
 
@@ -414,7 +420,7 @@ $(document).ready(function() {
  
     console.log(user.wallet);
 
-     $(".searchButton").on("click", function(event) {
+     $("#searchButton").on("click", function(event) {
         event.preventDefault();
             
         // Grabs user input, put it in var displayname.
@@ -457,9 +463,9 @@ $(document).ready(function() {
             
             if (hasName === true && hasShare === 1 ){
                 console.log(hasName)
-              $(".initialStatus").html("You currently have <br>" + hasShare + " share of " + hasName + ". <br> You have $"+ hasMoney +" <br> in your My Wallet." )
+              $(".initialStatus").html("You currently have <br>" + hasShare + " share of " + name + ". <br> You have $"+ hasMoney +" <br> in your My Wallet." )
             } else if (hasName === true && hasShare > 1 ) {
-              $(".initialStatus").html("You currently have <br>" + hasShare + " shares of " + hasName + ". <br> You have $"+ hasMoney +"<br> in your My Wallet." )
+              $(".initialStatus").html("You currently have <br>" + hasShare + " shares of " + name + ". <br> You have $"+ hasMoney +"<br> in your My Wallet." )
             } else {
               $(".initialStatus").html("You currently have <br> 0 share of " + name + ". <br> You have $"+ hasMoney +"<br> in your My Wallet." )
             }
@@ -470,7 +476,7 @@ $(document).ready(function() {
           });
       
       
-      
+      console.log(moneyHere);
       
       
       
@@ -500,130 +506,130 @@ $(document).ready(function() {
       
           
       
-            //Pulling and Comparing most recent time and stock price. DUPLICATE ++++++++++++++++++++++++++++++++++
-                // for (var timeStamp in prices) {
-                //     var diff =moment().diff(moment(timeStamp, "YYYY-MM-DD HH:mm:ss") , "minutes");
+    //         //Pulling and Comparing most recent time and stock price. DUPLICATE ++++++++++++++++++++++++++++++++++
+    //             // for (var timeStamp in prices) {
+    //             //     var diff =moment().diff(moment(timeStamp, "YYYY-MM-DD HH:mm:ss") , "minutes");
       
-                //     if (diff < min) {
-                //         min = diff;
-                //         mostRecentTime = timeStamp;
-                //     }
+    //             //     if (diff < min) {
+    //             //         min = diff;
+    //             //         mostRecentTime = timeStamp;
+    //             //     }
                 
-                // };
+    //             // };
       
-                // //Stock Price of the current time.
-                // price = prices[mostRecentTime]["4. close"];
+    //             // //Stock Price of the current time.
+    //             // price = prices[mostRecentTime]["4. close"];
              
-                console.log(price);
-      
-          for(var i = 0; i < 77; i++) {
-            historyDay.push(0);
-          }
-      
-      
-          var fiveMinsAfter = moment(mostRecentTime, "YYYY-MM-DD HH:mm:ss" ).set("hour", 9);
-          fiveMinsAfter = fiveMinsAfter.set("minute" , 30);
-      
-          var dayIndex = 0;
-          while(fiveMinsAfter.format("YYYY-MM-DD HH:mm:ss") !== mostRecentTime){
-              historyDay[dayIndex] = historyDay[dayIndex] + parseInt(prices[fiveMinsAfter.format("YYYY-MM-DD HH:mm:ss")]["4. close"]) ;
-              fiveMinsAfter = fiveMinsAfter.add('5' ,"minutes");
-              dayIndex++;
-              
-          }
-      
-        }).then(function() {
-          afterPromise();
-      
-        });
-      
-        // These two functions will be deleted when we combine Chi and My javascript files
-        function afterPromise() {
-          console.log("entered afterPromise")
-           //console.log(value);
-         //  console.log(historyDay[1]);
-      
-           var arr = [];
-           var time = moment("9:30", "hh:mm");
-           for (var i = 0; i < historyDay.length; i++) {
-              // var converted = d3.time.format("%H-%M");
-              // console.log(converted(time.format("hh:mm")))
-      
-              //console.log(historyDay[i]);
-              dataPoint = {
-                  date: new Date(),
-                  value: historyDay[i]
-              }
-              dataPoint.date.setHours(time.hours())
-              dataPoint.date.setMinutes(time.minutes());
-              console.log(dataPoint);
-               arr.push(dataPoint);
                
-               time.add('5', "minutes");
-           }
-           console.log(arr);
       
-           drawChart(arr);
-      }
+    //       for(var i = 0; i < 77; i++) {
+    //         historyDay.push(0);
+    //       }
       
       
-       function drawChart(data) {
-           $("#portfolioGraph").empty();
-           $("#portfolioGraph").append("<svg></svg");
-           //d3.select("svg").
+    //       var fiveMinsAfter = moment(mostRecentTime, "YYYY-MM-DD HH:mm:ss" ).set("hour", 9);
+    //       fiveMinsAfter = fiveMinsAfter.set("minute" , 30);
       
-           console.log("entered drawChart")
-           var svgWidth = 600, svgHeight = 400;
-           var margin = { top: 20, right: 20, bottom: 30, left: 50 };
-           var width = svgWidth - margin.left - margin.right;
-           var height = svgHeight - margin.top - margin.bottom;
-           var svg = d3.select('svg')
-             .attr("width", svgWidth)
-             .attr("height", svgHeight);
-           var g = svg.append("g")
-           .attr("transform", 
-               "translate(" + margin.left + "," + margin.top + ")"
-           );
-           var x = d3.scaleTime().rangeRound([0, width]);
-           var y = d3.scaleLinear().rangeRound([height, 0]);
+    //       var dayIndex = 0;
+    //       while(fiveMinsAfter.format("YYYY-MM-DD HH:mm:ss") !== mostRecentTime){
+    //           historyDay[dayIndex] = historyDay[dayIndex] + parseInt(prices[fiveMinsAfter.format("YYYY-MM-DD HH:mm:ss")]["4. close"]) ;
+    //           fiveMinsAfter = fiveMinsAfter.add('5' ,"minutes");
+    //           dayIndex++;
+              
+    //       }
       
-           var line = d3.line()
-           .x(function(d) { return x(d.date)})
-           .y(function(d) { return y(d.value)})
-           x.domain(d3.extent(data, function(d) { return d.date }));
-           y.domain(d3.extent(data, function(d) { return d.value }));
+    //     }).then(function() {
+    //       afterPromise();
       
-           g.append("g")
-           .attr("transform", "translate(0," + height + ")")
-           .call(d3.axisBottom(x))
-           .select(".domain")
-           .remove();
+    //     });
       
-           g.append("g")
-           .call(d3.axisLeft(y))
-           .append("text")
-           .attr("fill", "#000")
-           .attr("transform", "rotate(-90)")
-           .attr("y", 6)
-           .attr("dy", "0.71em")
-           .attr("text-anchor", "end")
-          //  .text("Price ($)");
+    //     // These two functions will be deleted when we combine Chi and My javascript files
+    //     function afterPromise() {
+    //       console.log("entered afterPromise")
+    //        //console.log(value);
+    //      //  console.log(historyDay[1]);
       
-           g.append("path")
-           .datum(data)
-           .attr("fill", "none")
-           .attr("stroke", "#5de27c")
-           .attr("stroke-linejoin", "round")
-           .attr("stroke-linecap", "round")
-           .attr("stroke-width", 2)
-           .attr("d", line);
+    //        var arr = [];
+    //        var time = moment("9:30", "hh:mm");
+    //        for (var i = 0; i < historyDay.length; i++) {
+    //           // var converted = d3.time.format("%H-%M");
+    //           // console.log(converted(time.format("hh:mm")))
+      
+    //           //console.log(historyDay[i]);
+    //           dataPoint = {
+    //               date: new Date(),
+    //               value: historyDay[i]
+    //           }
+    //           dataPoint.date.setHours(time.hours())
+    //           dataPoint.date.setMinutes(time.minutes());
+    //           console.log(dataPoint);
+    //            arr.push(dataPoint);
+               
+    //            time.add('5', "minutes");
+    //        }
+    //        console.log(arr);
+      
+    //        drawChart(arr);
+    //   }
       
       
-       }
+    //    function drawChart(data) {
+    //        $("#portfolioGraph").empty();
+    //        $("#portfolioGraph").append("<svg></svg");
+    //        //d3.select("svg").
+      
+    //        console.log("entered drawChart")
+    //        var svgWidth = 600, svgHeight = 400;
+    //        var margin = { top: 20, right: 20, bottom: 30, left: 50 };
+    //        var width = svgWidth - margin.left - margin.right;
+    //        var height = svgHeight - margin.top - margin.bottom;
+    //        var svg = d3.select('svg')
+    //          .attr("width", svgWidth)
+    //          .attr("height", svgHeight);
+    //        var g = svg.append("g")
+    //        .attr("transform", 
+    //            "translate(" + margin.left + "," + margin.top + ")"
+    //        );
+    //        var x = d3.scaleTime().rangeRound([0, width]);
+    //        var y = d3.scaleLinear().rangeRound([height, 0]);
+      
+    //        var line = d3.line()
+    //        .x(function(d) { return x(d.date)})
+    //        .y(function(d) { return y(d.value)})
+    //        x.domain(d3.extent(data, function(d) { return d.date }));
+    //        y.domain(d3.extent(data, function(d) { return d.value }));
+      
+    //        g.append("g")
+    //        .attr("transform", "translate(0," + height + ")")
+    //        .call(d3.axisBottom(x))
+    //        .select(".domain")
+    //        .remove();
+      
+    //        g.append("g")
+    //        .call(d3.axisLeft(y))
+    //        .append("text")
+    //        .attr("fill", "#000")
+    //        .attr("transform", "rotate(-90)")
+    //        .attr("y", 6)
+    //        .attr("dy", "0.71em")
+    //        .attr("text-anchor", "end")
+    //       //  .text("Price ($)");
+      
+    //        g.append("path")
+    //        .datum(data)
+    //        .attr("fill", "none")
+    //        .attr("stroke", "#5de27c")
+    //        .attr("stroke-linejoin", "round")
+    //        .attr("stroke-linecap", "round")
+    //        .attr("stroke-width", 2)
+    //        .attr("d", line);
+      
+      
+       });
       
       
        console.log(price);
-      
+      console.log(moneyHere);
          
             //whehter user wants to buy or sell
             var buySell = "";
@@ -645,9 +651,9 @@ $(document).ready(function() {
             $(".dropdown-item").on("click", function(event){
                 buttonPressed = true;
                 shareAmount = $(".shareBox").val();
-                totalStock = shareAmount * price
-                 //to display on our calculation page without the minus.
-                 moneyDisplay = totalStock;
+                totalStock = shareAmount * moneyHere
+                //to display on our calculation page without the minus.
+                moneyDisplay = totalStock;
                 //deciding whether user is buying or selling stock
                 if(this.id ==="buyStock" && user.wallet > totalStock ){
                   proceed = true;
@@ -655,80 +661,84 @@ $(document).ready(function() {
                   //minus totalstock price since we are paying
                   totalStock = -totalStock;
                   //adding shareamount to our totalamount since we are buying more shares
-                  totalAmount += shareAmount;
+                  totalAmount = parseInt(hasShare) + parseInt(shareAmount);
                 } else if (this.id ==="buyStock" && user.wallet < totalStock ){
                   proceed = false;
                   alert("Not Enough Money");
         
-            
-    //         //Displaying what the user is doing before clicking trade button.
-      
-    //           if (shareAmount === "1" && proceed)
-    //           { console.log("one")
-    //             $(".currentStatus").html("You are "+ buySell + "<br> " + shareAmount + " share of "+ displayName + " stock. <br> The total is $" + totalStock + ". <br> Your Wallet balance will change to <br> $" + currentMoney + ".")
-    //           } else if (shareAmount > 1 && proceed) {
-    //           $(".currentStatus").html("You are "+ buySell + "<br> " +  shareAmount + " shares of "+ displayName + " stock.<br>  The total is $" + totalStock + ". <br> Your Wallet balance will change to <br> $" + currentMoney + ".") }
-    //             else {
-    //               return;
-    //             }
-    //         });
+                } else if (this.id ==="sellStock" && hasShare > shareAmount ){
+                  proceed = true;
+                  buySell = "selling";
+                  //subtracting shareamount from the totalamount since we are selling.
+                  totalAmount = parseInt(hasShare) - parseInt(shareAmount);
+                } else {
+                  proceed = false;
+                  alert("Don't have enough Share");
+                };
+               
+                //calculating change in money. 
+                currentMoney = user.wallet + totalStock;
+               
+          
+              
+              //Displaying what the user is doing before clicking trade button.
+        
+              if (shareAmount === "1" && proceed)
+              { console.log("one")
+                $(".currentStatus").html("You are "+ buySell + "<br> " + shareAmount + " share of "+ name + " stock. <br> The total is $" + moneyDisplay + ". <br> Your Wallet balance will change to <br> $" + currentMoney + ".")
+              } else if (shareAmount > 1 && proceed) {
+              $(".currentStatus").html("You are "+ buySell + "<br> " +  shareAmount + " shares of "+ name + " stock.<br>  The total is $" + moneyDisplay + ". <br> Your Wallet balance will change to <br> $" + currentMoney + ".") }
+                else {
+                  return;
+                }
+            });
 
       
  
-    //         //deducting from my wallet.
-    //         $("#tradeStock").on("click", function(event) {
-    //           if(buttonPressed && proceed){
-    //           $(".moneyGoesHere").html("<div> My Wallet : "+ currentMoney +"</div>");
-    //           // user.stocks.push(displayName, price, shareAmount); THIS CAN BE DELETED ONCE LINKED TO TRAE;s  ------------------------------------------------------
-    //           database.ref().push({
-    //             stockName: displayName,
-    //             stockShare: totalAmount,
-    //             myMoney: currentMoney
-    //           });
-      
-    //           shareAmount = 0;
+            //deducting from my wallet.
+            $("#tradeStock").on("click", function(event) {
+                console.log(currentMoney);
+              if(buttonPressed && proceed){
+              $(".moneyGoesHere").html("<div> My Wallet : "+ currentMoney +"</div>");
+              var setArray = [moneyHere, totalAmount]
+            database.ref('/users/'+key+'/stocks/'+name.toUpperCase()).update(setArray)
+            database.ref('/users/'+key).update({
+                wallet: currentMoney,
+              });
+                //           shareAmount = 0;
     //           money = currentMoney;
            
-              
-      //QQQQ  //Removing stock name from portfolio page IF totalamount reaches 0
-              if("totalAmount in our database === 0"){
-                  //how do i target that specific #holding div with stockname (displayName)???++++++++++++++++++++++++++++++++++++++++++++++++++++++
-              };
-      
+
       
               // Clears all of the text-boxes
               $(".shareBox").val("");
               $(".currentStatus").html("");  
+              $(".initialStatus").html("");
       
             } else {
               alert("Please Fix Share Amount");
             };
       
       
-                //separate variable to speficially target exisitng share amount in our database
-                  var existingShare = user.stocks[displayName.toUpperCase()]
-                  console.log(existingShare);
+                // //separate variable to speficially target exisitng share amount in our database
+                //   var existingShare = user.stocks[displayName.toUpperCase()]
+                //   console.log(existingShare);
       
                 //Putting newly bought stock onto portfolio page. 
                 //if stock name DOESN'T exsit, create a new div and display on portfolio page. +++++ STILL NEEDS to connect this to portfolio page. 
-                  if(user.stocks[displayName.toUpperCase()] == null) {
+                  if(user.stocks[name.toUpperCase()] == null) {
       
                 if (totalAmount === 1){
-                $("#holding").append("<div class = 'holding minorFont'> <div class= 'stockName'> <p>" + 
-                displayName + "</p> </div> <div class = 'shareNumber'> <p>" + totalAmount + " share </p> </div> <div class = 'price' id = '" +
-                displayName + "'> </div> </div> " )}
+                $("#holdings").append("<div class = 'holding minorFont'> <div class= 'stockName'> <p>" + 
+                name + "</p> </div> <div class = 'shareNumber'> <p>" + totalAmount + " share </p> </div> <div class = 'price' id = '" +
+                name + "'> </div> </div> " )}
                 
-                else {  
-                $("#holding").append("<div class = 'holding minorFont'> <div class= 'stockName'> <p>" + 
-                displayName + "</p> </div> <div class = 'shareNumber'> <p>" + totalAmount + " shares </p> </div> <div class = 'price' id = '" +
-                displayName + "'> </div> </div> " )}
+                else if (totalAmount > 1) {  
+                $("#holdings").append("<div class = 'holding minorFont'> <div class= 'stockName'> <p>" + 
+                name + "</p> </div> <div class = 'shareNumber'> <p>" + totalAmount + " shares </p> </div> <div class = 'price' id = '" +
+                name + "'> </div> </div> " )}
                   } else {
-      
-      
-                    //If stock name exists, just update the total share amount on database. displaying on Portfolio is done via Dave's app.js code.
-                    existingShare[1] = totalAmount;
-                    console.log(existingShare[1]);
-                    
+                      return;
                   };
    
               });
