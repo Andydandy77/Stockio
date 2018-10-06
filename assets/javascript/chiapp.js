@@ -278,6 +278,7 @@ $(".searchButton").on("click", function(event) {
 
       var totalAmount = 0;
 
+      var moneyDisplay = 0;
       //whehter user can proceed with current money + selected share or not. 
       var proceed = false;
 
@@ -286,7 +287,8 @@ $(".searchButton").on("click", function(event) {
         buttonPressed = true;
         shareAmount = $(".shareBox").val();
         totalStock = shareAmount * price
-
+         //to display on our calculation page without the minus.
+         moneyDisplay = totalStock;
         //deciding whether user is buying or selling stock
         if(this.id ==="buyStock" && money > totalStock ){
           proceed = true;
@@ -318,12 +320,14 @@ $(".searchButton").on("click", function(event) {
 
         if (shareAmount === "1" && proceed)
         { console.log("one")
-          $(".currentStatus").html("You are "+ buySell + "<br> " + shareAmount + " share of "+ displayName + " stock. <br> The total is $" + totalStock + ". <br> Your Wallet balance will change to <br> $" + currentMoney + ".")
+          $(".currentStatus").html("You are "+ buySell + "<br> " + shareAmount + " share of "+ displayName + " stock. <br> The total is $" + moneyDisplay + ". <br> Your Wallet balance will change to <br> $" + currentMoney + ".")
         } else if (shareAmount > 1 && proceed) {
-        $(".currentStatus").html("You are "+ buySell + "<br> " +  shareAmount + " shares of "+ displayName + " stock.<br>  The total is $" + totalStock + ". <br> Your Wallet balance will change to <br> $" + currentMoney + ".") }
+        $(".currentStatus").html("You are "+ buySell + "<br> " +  shareAmount + " shares of "+ displayName + " stock.<br>  The total is $" + moneyDisplay + ". <br> Your Wallet balance will change to <br> $" + currentMoney + ".") }
           else {
             return;
           }
+
+        
       });
 
 
