@@ -301,7 +301,7 @@ $(".searchButton").on("click", function(event) {
           proceed = false;
           alert("Not Enough Money");
 
-        } else if (this.id ==="sellStock" && totalAmount > shareAmount ){
+        } else if (this.id ==="sellStock" && totalAmount >= shareAmount ){
           proceed = true;
           buySell = "selling";
           //subtracting shareamount from the totalamount since we are selling.
@@ -365,18 +365,6 @@ $(".searchButton").on("click", function(event) {
         shareAmount = 0;
         money = currentMoney;
        
-
-
-
-
-
-
-        
-//QQQQ  //Removing stock name from portfolio page IF totalamount reaches 0
-        if("totalAmount in our database === 0"){
-            //how do i target that specific #holding div with stockname (displayName)???++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        };
-
 
 
 

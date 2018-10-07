@@ -583,7 +583,7 @@ $(document).ready(function() {
                   proceed = false;
                   alert("Not Enough Money");
         
-                } else if (this.id ==="sellStock" && hasShare > shareAmount ){
+                } else if (this.id ==="sellStock" && hasShare >= shareAmount ){
                   proceed = true;
                   buySell = "selling";
                   //subtracting shareamount from the totalamount since we are selling.
