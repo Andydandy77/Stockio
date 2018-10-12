@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    //                       Trae's Code                   //
+    //                       Firebase                 //
     /*******************************************************/
     var config = {
         apiKey: "AIzaSyC0tz_bNSxnWAANS4j6XKDzHIDz9WFGI70",
@@ -14,6 +14,7 @@ $(document).ready(function() {
     firebase.initializeApp(config);
     var database = firebase.database();
 
+    // Locally stores uid and keys
      var userTable = {
         
 
@@ -46,19 +47,18 @@ $(document).ready(function() {
 
     var showSharesxPrices = false;
     var dayIndex = 77;
-    var displayName ="";
     var hasName = false;
     var hasShare = 0;
     var hasMoney = 0;
     var portfolioHistoryDay = [];
-    var currentUser;
     var alphaVantageKey = "QEX4QCA7O8Q6PC86";
     var dataBaseUserSnap;
-    var wallet = 10000;
     var key = "";
     var price = 0;
     var moneyHere = 0;
     var searched = false;
+
+    // Local copy of the user
     var user = {
 
         wallet: 0,
@@ -110,33 +110,8 @@ $(document).ready(function() {
     });
 
 
-    // whenever anything is changed in the database, changed the local object
-    // database.ref().on("child_changed", function(snapshot) {
-    //     console.log("child was changed");
-    //     var key = localStorage.getItem("key");
-
-
-    //     dataBaseUserSnap = snapshot.val()[key];
-    //     console.log(dataBaseUserSnap);
-        
-    //     //  user.wallet = dataBaseUserSnap.wallet;
-    //     //  user.numStocks = dataBaseUserSnap.numStocks;
-    //     //  user.portfolio = dataBaseUserSnap.portfolio;
-    //     //  user.stocks = dataBaseUserSnap.stocks;
-
-    //     //console.log(dataBaseUserSnap);
-    //     console.log(user);
-
-
-        
-
-    // }, function(errorObject) {
-    //     console.log("The read failed: " + errorObject.code);
-    // });
-
-    
-
-
+    // When a user clicks the stock price in his holdings, this will display
+    // the user's total value of the stock * number of shares
     $(document).on("click", ".price", function(){
         console.log(showSharesxPrices);
         showSharesxPrices = !showSharesxPrices;
@@ -155,14 +130,13 @@ $(document).ready(function() {
 
 
    
-
+    // This hits the Alpha Vantage API, gets the most recent prices of the user's holdings,
+    // updates the portfolio price, and stores the hourly portfolio prices of the most recent market day 
     var callStocks = function() {
         if (user.stocks != null) {
-            // console.log("here")
 
         var  dataBaseUser = database.ref('/users').child(localStorage.getItem("key"));
         console.log(dataBaseUser);    
-      // console.log(dataBaseUserSnap)            
         user.portfolio = 0;
         
         portfolioHistoryDay = [];
@@ -198,8 +172,6 @@ $(document).ready(function() {
                 var mostRecentTime;
                 
                 for (var timeStamp in prices) {
-                    //console.log(timeStamp);
-                    //portfolioHistoryDay.push(prices[timeStamp]["4. close"]);
                     var diff = moment().diff(moment(timeStamp, "YYYY-MM-DD HH:mm:ss") , "minutes");
 
                     if (diff < min) {
@@ -224,10 +196,9 @@ $(document).ready(function() {
                 user.stocks[stock][0] = price;
                 console.log(user);
               
+                // After we set the local object, we need to update 
+                // the firebase user to match the local object
 
-            
-                // CHECK IF THIS WORKS!
-                // console.log(user.portfolio)
                 dataBaseUser.set({
                     portfolio : user.portfolio,
                     stocks : user.stocks,
@@ -236,9 +207,9 @@ $(document).ready(function() {
                     name : user.name,
                     
                 });
-               // console.log(dataBaseUserSnap);
                console.log(user.wallet);
 
+               
                 if(!showSharesxPrices) {
 
                     $("#"+ stock).text("$"+ Math.round(user.stocks[stock][0]));
@@ -246,14 +217,11 @@ $(document).ready(function() {
                     $("#"+ stock ).text("$"+ Math.round(sharesxPrices));
                 }
                 
-
+                // This uses moment.js to grab all the prices of the user's stocks over the course of the day
                 var fiveMinsAfter = moment(mostRecentTime, "YYYY-MM-DD HH:mm:ss" ).set("hour", 9);
-                fiveMinsAfter = fiveMinsAfter.set("minute" , 30);
-            
-                
-                // daily portfolio values
+                fiveMinsAfter = fiveMinsAfter.set("minute" , 30);    
+
                 while(fiveMinsAfter.format("YYYY-MM-DD HH:mm:ss") !== mostRecentTime){
-                    //console.log("here")
                     portfolioHistoryDay[dayIndex] = portfolioHistoryDay[dayIndex] + parseInt(prices[fiveMinsAfter.format("YYYY-MM-DD HH:mm:ss")]["4. close"]) * user.stocks[stock][1] ;
                     
                     fiveMinsAfter = fiveMinsAfter.add('5' ,"minutes");
@@ -263,19 +231,17 @@ $(document).ready(function() {
 
                 }
                 temp++;
-                // console.log(portfolioHistoryDay);
-                // console.log(temp);
+                
                 
             }).then(function() {
+                // This checks if the user has made sufficient number of API calls based off of how many different
+                // stocks the users has. After this it calls afterPromise()
                 console.log(temp + "" + user.numStocks)
                     if (temp === user.numStocks) {
                        // console.log("after")
                         portfolioHistoryDay.length = dayIndex;
                         afterPromise(portfolioHistoryDay, "#portfolioGraph");
-                        // console.log(portfolioHistoryDay)
-
-                        // console.log("done")
-                        //resolve("Success!")
+                 
                     }
 
             });   
@@ -293,7 +259,9 @@ $(document).ready(function() {
     //setInterval(callStocks, 60000);
 
     console.log(user.wallet);
-       
+
+
+    // This takes in an array of prices, and a Jquery id to graph to
     function afterPromise(array, graph) {
         //console.log("entered afterPromise")
      
@@ -321,7 +289,7 @@ $(document).ready(function() {
          drawChart(arr, graph);
     }
 
- 
+    // This utilizes D3 to graph the hourly stock prices
      function drawChart(data, graph) {
          $(graph).empty();
          $(graph).append("<svg></svg");
@@ -418,10 +386,13 @@ $(document).ready(function() {
      //                  Chi's Code                           */
      //****************************************************** */
 
-     //pretending user.wallet works. 
+     
  
     console.log(user.wallet);
 
+
+    // When a user searches for a stock, this calls the API to get the hourly price and most recent price.
+    // The user can then choose to buy or sell the stock, and the user's portfolio is updated.
      $("#searchButton").on("click", function(event) {
         event.preventDefault();
         
@@ -483,7 +454,6 @@ $(document).ready(function() {
       
       
       
-        //API KEY, DISPLAY GRAPH, MAYBE DUPLICATE, til 242?????++++++++++++++++++++++++++++++++=
         var APIkeyChi = "QFHI6KS6J07ERWBA"
         var queryURL = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="+name+"&interval=5min&apikey="+APIkeyChi;
         var historyDay = [];
