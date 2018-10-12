@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    //                       Trae's Code                   //
+    //                       Firebase                  //
     /*******************************************************/
     var config = {
         apiKey: "AIzaSyC0tz_bNSxnWAANS4j6XKDzHIDz9WFGI70",
@@ -11,7 +11,7 @@ $(document).ready(function() {
         messagingSenderId: "10233592685"
     };
 
-    //var userTable = {};
+    
 
     firebase.initializeApp(config);
     var database = firebase.database();
@@ -20,6 +20,7 @@ $(document).ready(function() {
     $(document).on("click", "#loginButton", login);
     $(document).on("click", "#signUpButton", signUp);
 
+    // User is able to login if the user has already signed up
     function login() {  
         console.log("entered login");
     
@@ -40,21 +41,8 @@ $(document).ready(function() {
             
     };
 
-    // function logout(event) {
-
-    //     console.log("logout")
-    //     //window.location = 'index.html'
-    //     firebase.auth().signOut()
-    //     // window.location = 'index.html';
-    //         // Sign-out successful.
-    //     $(".userEmail").empty();
-    //     console.log("They signed out Trae");
-        
-        
-        
-
-    // };
-
+   
+    // This lets the user make an account
     function signUp() {
         newAccount = true;
 
@@ -78,16 +66,16 @@ $(document).ready(function() {
     var key;
     var uid;
     var userTable = {};
-    //localStorage.setItem("userTable", []); 
-    // if(localStorage.getItem("userTable").length === 0) {
-    //     console.log("it's null")
-    //     userTable = [];
-    // } else {
-    //     console.log("it's not empty")
-    //     userTable = localStorage.getItem("userTable");
-    // }
+   
    console.log(userTable);
-    
+
+
+    // This happens whenever the user logs in or signs up.
+    // If the user is signing up, this pushes a new user to the firebase database
+    // and stores the firebase key to another table based off the uid
+    // If the user is logging, it grabs the user key from the userkeys table.
+    // In both of these cases, login.js sets the user key to local storage so that app_final.js can
+    // find the user's information in firebase
     firebase.auth().onAuthStateChanged(function (user) {
         //console.log(JSON.stringify(userTable))
         if(user) {
@@ -114,15 +102,7 @@ $(document).ready(function() {
                 localStorage.setItem("key", key);
                 newAccount = false;
                 var newUserId = database.ref("/userKeys").push()
-                // var newUserIdTable = {
-                //     'uid' : uid,
-                //     'key' : key
-                // }
-                // console.log(userTable);
-                // userTable.push(newUserIdTable);
-                // console.log(userTable)
-                // localStorage.setItem("userTable", JSON.stringify(userTable));
-                // console.log(JSON.parse(localStorage.getItem("userTable")));
+               
 
                 newUserId.set({ 
                     'uid' : uid,
@@ -145,10 +125,7 @@ $(document).ready(function() {
                 
             } else {
 
-                
-                
-                // localStorage.setItem("key", key);
-                
+          
                 key = userTable[""+ uid + ""];
                 console.log(key)
                 localStorage.setItem("key", key);
@@ -157,8 +134,7 @@ $(document).ready(function() {
 
         
         
-        
-            //console.log(user)
+
             $(".userEmail").text(email); 
 
         } else {
@@ -169,6 +145,8 @@ $(document).ready(function() {
 
     });
 
+    // When a userkey is added, this adds it to a local userkeys table 
+    // and sets it to local storage.
     database.ref('/userKeys').on("value", function(snapshot) {
         snapshot.forEach((child) => {
             console.log(child.val());
