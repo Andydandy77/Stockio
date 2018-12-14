@@ -9,7 +9,11 @@ Stockio is a practice stock investment web application, that utilizes the Alpha 
 
 The user begins at our login page with a Login or Sign option. The user is then redirected to a portfolio page upon successful email and password authentication. The user will start off with shares of AAPL, GOOGL, and AMZN and $10,000 in their wallet. A real-time graph of all the user’s current hourly stock price for the most recent day the market was open is displayed using the historical data feature from Alpha Vantage and the D3 JavaScript library.
 
-![Alt text](assets/images/Login.png?raw=true "Login page screenShot")
+
+Link to application: https://andydandy77.github.io/Stockio/
+
+![Alt text](assets/images/Login.JPG?raw=true "Login page screenShot")
+
 
 ![Alt text](assets/images/Portfolio.png?raw=true "Portfolio page screenShot")
 
